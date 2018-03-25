@@ -1,0 +1,34 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Manage Users{/block}
+{block name="main"}
+<h3>Manage Users</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Middle Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Status</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {volist name="users" id="u"}
+    <tr>
+      <th scope="row" class="align-middle">{$u.user_id}</th>
+      <td class="align-middle">{$u.user_firstname}</td>
+      <td class="align-middle">{$u.user_middlename}</td>
+      <td class="align-middle">{$u.user_lastname}</td>
+      <td class="align-middle">{$u.user_email}</td>
+      <td class="align-middle table-{eq name="u.user_enabled" value="1"}success{else /}danger{/eq}">{eq name="u.user_enabled" value="1"}Enabled{else /}Disabled{/eq}</td>
+      <td class="align-middle">{eq name="u.user_enabled" value="1"}<button type="button" class="btn btn-danger btn-sm" onclick="setUserStatus({$u.user_id},0)">Disable</button>
+          {else /}<button type="button" class="btn btn-success btn-sm" onclick="setUserStatus({$u.user_id},1)">Enable</button>{/eq}
+        &nbsp;<a href="/admin/user/{$u.user_id}">Details</a></td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+<script src="/static/admin.js"></script>
+{/block}

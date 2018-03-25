@@ -1,0 +1,46 @@
+{assign name="active_menu" value="profile" /}
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Profile{/block}
+{block name="main"}
+<h3 class="border-bottom">My Account Profile</h3>
+<h4 class="mt-3">Personal Information</h4>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">First Name</th>
+      <td>{$Think.session.user.model->user_firstname}</td>
+    </tr>
+    <tr>
+      <th scope="row">Middle Name</th>
+      <td>{$Think.session.user.model->user_middlename}</td>
+    </tr>
+    <tr>
+      <th scope="row">Last Name</th>
+      <td>{$Think.session.user.model->user_lastname}</td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td>{$Think.session.user.model->user_email}</td>
+    </tr>
+  </tbody>
+</table>
+<h4 class="mt-3">User Group Membership</h4>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Group Name</th>
+      <th scope="col">Valid From</th>
+      <th scope="col">Expires On</th>
+    </tr>
+  </thead>
+  <tbody>
+    {volist name="group_memberships" id="m" empty="$empty_membership_message" }
+    <tr>
+      <th scope="row">{$m.name}</th>
+      <td>{empty name="m.validfrom"}Now{else /}{$m.validfrom}{/empty}</td>
+      <td>{empty name="m.expiration"}Never{else /}{$m.expiration}{/empty}</td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+{/block}
