@@ -1,0 +1,19 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Admin Self-Enroll{/block}
+{block name="main"}
+<h3 class="border-bottom">Add Administrator Privileges</h3>
+<p>{$message|raw}</p>
+<p>
+  {notempty name="showEnrollButton"}
+  <form method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-primary btn-lg" role="button">
+      Continue
+    </button>
+  </form>
+  &nbsp;
+  <a href="/dashboard" role="button" class="btn btn-lg btn-secondary">Cancel</a>
+  {else /}
+  <a href="/dashboard" role="button" class="btn btn-lg btn-secondary">Go Back</a>
+  {/notempty}
+</p>
+{/block}

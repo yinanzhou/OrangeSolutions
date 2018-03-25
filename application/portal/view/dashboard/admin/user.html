@@ -1,0 +1,56 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Manage User: {$u->user_id}{/block}
+{block name="main"}
+<h3 class="border-bottom">Manage User: {$u->user_id}</h3>
+<h4 class="mt-3">Personal Information</h4>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">User ID</th>
+      <td>{$u->user_id}</td>
+    </tr>
+    <tr>
+      <th scope="row">First Name</th>
+      <td>{$u->user_firstname}</td>
+    </tr>
+    <tr>
+      <th scope="row">Middle Name</th>
+      <td>{$u->user_middlename}</td>
+    </tr>
+    <tr>
+      <th scope="row">Last Name</th>
+      <td>{$u->user_lastname}</td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td>{$u->user_email}</td>
+    </tr>
+  </tbody>
+</table>
+<h4 class="mt-3">Account Status</h4>
+<p>The user account is currently <b>{eq name="u->user_enabled" value="1"}enabled{else /}disabled{/eq}</b>.<br />
+{eq name="u->user_enabled" value="1"}<button type="button" class="btn btn-danger btn-sm" onclick="setUserStatus({$u->user_id},0)">Disable Account</button>
+{else /}<button type="button" class="btn btn-success btn-sm" onclick="setUserStatus({$u->user_id},1)">Enable Account</button>{/eq}</p>
+<h4 class="mt-3">User Group Membership</h4>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Group Name</th>
+      <th scope="col">Valid From</th>
+      <th scope="col">Expires On</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {volist name="group_memberships" id="m" empty="$empty_membership_message" }
+    <tr>
+      <th class="align-middle" scope="row">{$m.name}</th>
+      <td class="align-middle">{empty name="m.validfrom"}Now{else /}{$m.validfrom}{/empty}</td>
+      <td class="align-middle">{empty name="m.expiration"}Never{else /}{$m.expiration}{/empty}</td>
+      <td class="align-middle"><button type="button" class="btn btn-danger btn-sm" onclick="removeMembership({$u->user_id},{$m.group_id})">Remove Membership</button></td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+<script src="/static/admin.js"></script>
+{/block}

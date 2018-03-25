@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Register your OrangeSolutions account">
+    <title>Register - OrangeSolutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <style>
+      body{padding-top: 50px; padding-bottom:20px;}
+      .help-block{margin-bottom: 0px;}
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand">OrangeSolutions</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Registration</h1>
+        <p>Create your OrangeSolutions account to obtain access</p>
+      </div>
+    </div>
+
+    <div class="container" style="max-width:332px;margin-left:auto;margin-right:auto;">
+      <form method="POST" style="margin:auto;margin-top:30px;" onsubmit="return checkForm()">
+        <div id="error-alert" class="alert alert-danger" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          Please fix the highlighted error field(s).
+        </div>
+        <div id="input-firstname-div" class="form-group">
+          <label>First Name</label>
+          <input id="input-firstname" type="text" class="form-control" name="user_firstname" maxlength="40" placeholder="First Name" required {notempty name="prefilledData.user_firstname"}value="{$prefilledData.user_firstname}"{/notempty}>
+        </div>
+        <div id="input-lastname-div" class="form-group">
+          <label>Last Name</label>
+          <input id="input-lastname" type="text" class="form-control" name="user_lastname" maxlength="40" placeholder="Last Name" required {notempty name="prefilledData.user_lastname"}value="{$prefilledData.user_lastname}"{/notempty}>
+        </div>
+        <div id="input-middlename-div" class="form-group">
+          <label>Middle Name (Optional)</label>
+          <input id="input-middlename" type="text" class="form-control" name="user_middlename" maxlength="40" {notempty name="prefilledData.user_middlename"}value="{$prefilledData.user_middlename}"{/notempty}>
+        </div>
+        <div id="input-email-div" class="form-group">
+          <label>Email</label>
+          <input id="input-email" type="email" class="form-control" name="user_email" maxlength="255" placeholder="abc@example.com" required {notempty name="prefilledData.user_email"}value="{$prefilledData.user_email}"{/notempty}>
+        </div>
+        <div class="form-group">
+          <label>Choose a password</label>
+          <div id="input-password-div">
+            <input id="input-password" type="password" class="form-control" name="user_password" maxlength="24" required>
+          </div>
+          <div id="password-requirement-length-div" class="has-error">
+            <span class="help-block"><span id="password-requirement-length-icon" class="glyphicon glyphicon-remove"></span>&nbsp;Password length between 8 and 24</span>
+          </div>
+          <div id="password-requirement-letters-div" class="has-error">
+            <span class="help-block"><span id="password-requirement-letters-icon" class="glyphicon glyphicon-remove"></span>&nbsp;Include both uppercase and lowercase letters</span>
+          </div>
+          <div id="password-requirement-numeric-div" class="has-error">
+            <span class="help-block"><span id="password-requirement-numeric-icon" class="glyphicon glyphicon-remove"></span>&nbsp;Include at least one numeric digit</span>
+          </div>
+          <div id="password-requirement-special-div" class="has-warning">
+            <span class="help-block"><span id="password-requirement-special-icon" class="glyphicon glyphicon-remove"></span>&nbsp;Include special characters (optional)</span>
+          </div>
+        </div>
+        <div id="input-password-repeat-div" class="form-group">
+          <label>Repeat your password</label>
+          <input id="input-password-repeat" type="password" class="form-control" maxlength="24" required>
+        </div>
+        <div class="form-group">
+          <div class="g-recaptcha" data-sitekey="{$Think.config.recaptcha['sitekey']}" data-callback="recaptchaComplete" data-expired-callback="recaptchaExpire"></div>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary btn-block"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create my account</button>
+        <a href="/login" class="btn btn-link btn-block">I have an account</a>
+        {:token('register')}
+      </form>
+    </div>
+    <hr>
+    <footer style="text-align:center;">
+      <p>&copy;2018 OrangeSolutions</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>
+      // Set regular expression to global variable to avoid repetitive compilation
+      var containLowercaseRegEx = /[a-z]/;
+      var containUppercaseRegEx = /[A-Z]/;
+      var containNumericRegEx = /\d/;
+      var containSpecialCharacterRegEx = /[^A-Za-z0-9]/;
+      var containNonWhiteSpaceRegEx = /\S/;
+      var emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      function checkFirstName() {
+        var result = containNonWhiteSpaceRegEx.test($("#input-firstname").val());
+        if (result) {
+          $("#input-firstname-div").removeClass("has-error").addClass("has-success");
+        } else {
+          // Clear the input area if only white space characters are present.
+          $("#input-firstname").val("");
+          $("#input-firstname-div").removeClass("has-success").addClass("has-error");
+        }
+        return result;
+      }
+
+      function checkLastName() {
+        var result = containNonWhiteSpaceRegEx.test($("#input-lastname").val());
+        if (result) {
+          $("#input-lastname-div").removeClass("has-error").addClass("has-success");
+        } else {
+          // Clear the input area if only white space characters are present.
+          $("#input-lastname").val("");
+          $("#input-lastname-div").removeClass("has-success").addClass("has-error");
+        }
+        return result;
+      }
+
+      function checkMiddleName() {
+        if (containNonWhiteSpaceRegEx.test($("#input-middlename").val())) {
+          $("#input-middlename-div").addClass("has-success");
+        } else {
+          // Clear the input area if only white space characters are present.
+          $("#input-middlename").val("");
+          $("#input-middlename-div").removeClass("has-success");
+        }
+        return true;
+      }
+
+      function checkEmail() {
+        $("#input-email").val($("#input-email").val().toLowerCase());
+        var result = emailRegEx.test($("#input-email").val());
+        if (result) {
+          $("#input-email-div").removeClass("has-error").addClass("has-success");
+        } else {
+          $("#input-email-div").removeClass("has-success").addClass("has-error");
+        }
+        return result;
+      }
+
+      function checkPassword() {
+        var password = $("#input-password").val();
+        // Try to avoid short circuiting
+        var result = checkPasswordLength(password);
+        result = checkPasswordLetters(password) && result;
+        result = checkPasswordNumeric(password) && result;
+        checkPasswordSpecialCharacter(password);
+        if (result) {
+          $("#input-password-div").removeClass("has-error").addClass("has-success");
+        } else {
+          $("#input-password-div").removeClass("has-success").addClass("has-error");
+        }
+        checkPasswordRepeat();
+        return result;
+      }
+
+      function checkPasswordLength(password) {
+        var len = password.length;
+        var result = len >= 8 && len <= 24;
+        if (result) {
+          $("#password-requirement-length-div").removeClass("has-error").addClass("has-success");
+          $("#password-requirement-length-icon").removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        } else {
+          $("#password-requirement-length-div").removeClass("has-success").addClass("has-error");
+          $("#password-requirement-length-icon").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+        }
+        return result;
+      }
+
+
+      function checkPasswordLetters(password) {
+        var result = containLowercaseRegEx.test(password) && containUppercaseRegEx.test(password);
+        if (result) {
+          $("#password-requirement-letters-div").removeClass("has-error").addClass("has-success");
+          $("#password-requirement-letters-icon").removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        } else {
+          $("#password-requirement-letters-div").removeClass("has-success").addClass("has-error");
+          $("#password-requirement-letters-icon").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+        }
+        return result;
+      }
+
+      function checkPasswordNumeric(password) {
+        var result = containNumericRegEx.test(password);
+        if (result) {
+          $("#password-requirement-numeric-div").removeClass("has-error").addClass("has-success");
+          $("#password-requirement-numeric-icon").removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        } else {
+          $("#password-requirement-numeric-div").removeClass("has-success").addClass("has-error");
+          $("#password-requirement-numeric-icon").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+        }
+        return result;
+      }
+
+      function checkPasswordSpecialCharacter(password) {
+        var result = containSpecialCharacterRegEx.test(password);
+        if (result) {
+          $("#password-requirement-special-div").removeClass("has-warning").addClass("has-success");
+          $("#password-requirement-special-icon").removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        } else {
+          $("#password-requirement-special-div").removeClass("has-success").addClass("has-warning");
+          $("#password-requirement-special-icon").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+        }
+        return result;
+      }
+
+      function checkPasswordRepeat() {
+        var result = $("#input-password").val() == $("#input-password-repeat").val();
+        if (result) {
+          $("#input-password-repeat-div").removeClass("has-error").addClass("has-success");
+        } else {
+          $("#input-password-repeat-div").removeClass("has-success").addClass("has-error");
+        }
+        return result;
+      }
+
+      function trimFields() {
+        $("#input-firstname").val($("#input-firstname").val().trim());
+        $("#input-lastname").val($("#input-lastname").val().trim());
+        $("#input-middlename").val($("#input-middlename").val().trim());
+      }
+
+
+      var recaptcha_completed = false;
+      function recaptchaComplete() {
+        recaptcha_completed = true;
+      }
+
+      function recaptchaExpire() {
+        recaptcha_completed = false;
+      }
+
+      function checkForm() {
+        trimFields();
+        var result = checkFirstName();
+        result = checkLastName() && result;
+        result = checkMiddleName() && result;
+        result = checkEmail() && result;
+        result = checkPassword() && result;
+        result = checkPasswordRepeat() && result;
+        if (!result) {
+          $("#error-alert").show();
+          return false;
+        }
+        if (!recaptcha_completed) {
+          alert('Please click on "I\'m not a robot".');
+          return false;
+        }
+        return true;
+      }
+
+      function hideErrorAlert() {
+        $("#error-alert").hide();
+      }
+
+      // Register events
+      $("#input-firstname").change(checkFirstName).keyup(checkFirstName);
+      $("#input-lastname").change(checkLastName).keyup(checkLastName);
+      $("#input-middlename").change(checkMiddleName).keyup(checkMiddleName);
+      $("#input-email").change(checkEmail).keyup(checkEmail);
+      $("#input-password").change(checkPassword).keyup(checkPassword);
+      $("#input-password-repeat").change(checkPasswordRepeat).keyup(checkPasswordRepeat);
+      $("form").keyup(hideErrorAlert);
+      hideErrorAlert();
+      {notempty name="alert"}alert({$alert|raw|json_encode});{/notempty}
+    </script>
+  </body>
+</html>
