@@ -7,4 +7,6 @@ Route::get('/logout','portal/auth/logout');
 
 Route::get('dashboard', 'portal/dashboard.general/home');
 Route::get('dashboard/profile', 'portal/dashboard.general/profile');
+
+Route::get('volunteer/specialties', 'portal/dashboard.volunteer/specialties');
 return [];

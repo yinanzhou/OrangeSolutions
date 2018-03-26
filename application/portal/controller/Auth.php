@@ -323,15 +323,7 @@ class Auth extends Controller {
    * @author Yinan Zhou
    */
   public static function isVolunteer($user_id = null) {
-    return Auth::isMemberOf(Auth::STUDENT_GROUP_ID, $user_id);
-  }
-
-  /**
-   * Shortcut function for checking whether user is a parent
-   * @author Yinan Zhou
-   */
-  public static function isParent($user_id = null) {
-    return Auth::isMemberOf(Auth::PARENT_GROUP_ID, $user_id);
+    return Auth::isMemberOf(Auth::VOLUNTEER_GROUP_ID, $user_id);
   }
 
   /**
