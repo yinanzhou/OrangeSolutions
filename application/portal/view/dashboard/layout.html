@@ -55,7 +55,7 @@
             </ul>
             {/in}
 
-            {assign name="gid" value="3" /}
+            {assign name="gid" value="2" /}
             {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Student Services</span>
@@ -94,34 +94,16 @@
             </ul>
             {/in}
 
-            {assign name="gid" value="2" /}
+            {assign name="gid" value="3" /}
             {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Tutor Services</span>
+              <span>Volunteer Services</span>
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
-                <a class="nav-link" href="/tutor/{$Think.session.user.model->user_id}" target="_blank">
-                  <span data-feather="list"></span>
-                  My Public Tutor Profile
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="tutor-appointments"}active{/eq}" href="/tutor/appointments">
-                  <span data-feather="calendar"></span>
-                  My Appointments
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="tutor-availabilities"}active{/eq}" href="/tutor/availabilities">
-                  <span data-feather="edit"></span>
-                  My Availabilities
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="tutor-subjects"}active{/eq}" href="/tutor/subjects">
+                <a class="nav-link {eq name="active_menu" value="tutor-subjects"}active{/eq}" href="/volunteer/specialties">
                   <span data-feather="book"></span>
-                  My Subject Mastery
+                  My Medical Specialties
                 </a>
               </li>
             </ul>

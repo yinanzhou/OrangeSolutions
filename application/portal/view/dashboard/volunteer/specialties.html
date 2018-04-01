@@ -1,0 +1,47 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}My Medical Specialties{/block}
+{block name="main"}
+<h3>Medical Specialties Management</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Specialty Type</th>
+      <th scope="col"></th>
+  </thead>
+  <tbody>
+    {volist name="specialties" id="s"}
+    <tr {in name="s.medical_specialty_id" value="$masteries"}class="table-success"{/in}>
+      <td class="align-middle">{$s.medical_specialty_name}</td>
+      <td class="align-middle">{notin name="s.medical_specialty_id" value="$masteries"}<button class="btn btn-link btn-sm"  onclick="addSpecialty('{$s.medical_specialty_id}')"><span data-feather="plus-square"></span>&nbsp;I master this specialty</button>
+        {else /}<button class="btn btn-link btn-sm" onclick="removeSpecialty('{$s.medical_specialty_id}')"><span data-feather="minus-square"></span>&nbsp;Remove this specialty</button>{/notin}</td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+<script>
+
+function addSpecialty(medical_specialty_id) {
+  $.ajax({
+    type: "POST",
+    url: '/volunteer/specialties/' + medical_specialty_id,
+    success: function(data) {
+      alert(data);
+      location.reload();
+    },
+    dataType: "json"
+  });
+}
+
+function removeSpecialty(medical_specialty_id) {
+  $.ajax({
+    type: "DELETE",
+    url: '/volunteer/specialties/' + medical_specialty_id,
+    success: function(data) {
+      alert(data);
+      location.reload();
+    },
+    dataType: "json"
+  });
+}
+</script>
+{/block}
