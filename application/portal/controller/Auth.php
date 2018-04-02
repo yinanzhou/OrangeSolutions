@@ -120,8 +120,7 @@ class Auth extends Controller {
    * @author Yinan Zhou
    */
   protected function isLoginCaptchaRequired($email) {
-    // TODO(yinanzhou): Add security policy here
-    return true;
+    return false; // turn off reCAPTCHA temporarily for easier testing
   }
 
   /**
