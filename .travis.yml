@@ -3,6 +3,12 @@ language: php
 php:
   - '7.0'
 
+services:
+  - mysql
+
+env:
+  - DATABASE_NAME=orangesolution DATABASE_USER=travis DATABASE_PASS=
+
 cache:
   directories:
     - $HOME/.composer/cache
@@ -14,4 +20,5 @@ install:
   - composer install
 
 script:
+  - mysql < install/database.sql
   - find application config install public route -maxdepth 100 -iname \*.php -type f -exec php -l {} \;
