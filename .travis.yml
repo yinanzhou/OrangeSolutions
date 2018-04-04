@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - '7.0'
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
+
+script:
+  - find application config install public route -maxdepth 100 -iname \*.php -type f -exec php -l {} \;
