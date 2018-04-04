@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `membership` (
   KEY `group_id` (`group_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `patient` (
+CREATE TABLE IF NOT EXISTS `patient_profile` (
   `user_id` mediumint(8) UNSIGNED NOT NULL,
   `patient_gender` enum('Male','Female','Intersex','FtM Male','MtF Female') DEFAULT NULL,
   `patient_birthday` date DEFAULT NULL,
@@ -120,5 +120,5 @@ ALTER TABLE `membership`
   ADD CONSTRAINT `FK_MEMBERSHIP_GROUP` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_MEMBERSHIP_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `patient`
-  ADD CONSTRAINT `FK_PATIENT_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `patient_profile`
+  ADD CONSTRAINT `FK_PATIENTPROFILE_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
