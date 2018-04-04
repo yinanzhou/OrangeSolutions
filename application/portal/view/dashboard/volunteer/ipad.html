@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <title>Volunteer Paging System - OrangeSolutions</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet.min.css" integrity="sha256-q83Ch9K/KXuVoy01PSliNZRDBJIUrlyhpUe3VE+gZ/8=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet-theme-ios.min.css" integrity="sha256-B7gPdsj6c19Y2Ew3t9FNmEpH3tKNixjU/T69nljzVRo=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/js/ratchet.min.js" integrity="sha256-3AJ3v9rphXD8v8M8s18kNcv8P08gcvnsInoSYx7ipSg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inobounce/0.1.5/inobounce.min.js" integrity="sha256-EPsorOZo3Uo2if0mO1hup6cfKcQC21dus/eCWW+HrGQ=" crossorigin="anonymous"></script>
+    <style>
+      .updated-text {
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding: 10px 0;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .table-view-cell .icon {
+        color: #007aff;
+      }
+
+      audio {
+        display: none;
+      }
+
+      @font-face {
+        font-family: AlarmClock;
+        src: url('/static/alarm-clock.ttf');
+        font-weight: bold;
+      }
+
+      .clock {
+        font-size:230px;
+        font-family: 'AlarmClock';
+        color:white;
+        position: relative;
+        top:180px;
+        text-shadow: 8px 8px black;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bar bar-nav">
+      <h1 class="title">OrangeSolutions Volunteer Paging System</h1>
+    </header>
+
+    <div class="bar bar-footer">
+      <small class="updated-text">Connected to Pager Server</small>
+    </div>
+
+    <div id="image-mode" class="content" style="text-align:center;">
+      <h1 class="clock"><span id="hour"></span><span id="clock-col">:</span><span id="minute"></span><span style="font-size:100px;">&nbsp;</span><span id="am-pm"></span></h1>
+      <h1 class="clock" style="font-size:100px; top: 180px;"><span id="month"></span><span style="font-size:50px;">&nbsp;</span><span id="day"></span></h1>
+    </div>
+
+
+    <div id="ringing-mode" class="content" style="display:none;">
+      <div style="height:300px; overflow: hidden;text-align:center;margin-top:40px;">
+        <img src="/static/jacob.png" style="height:100%; width:auto; display:inline-block; border-radius:50%;padding:4px;border:2px solid #ddd;" />
+      </div>
+      <div class="content-padded" style="text-align:center; margin-top:30px;">
+        <h1 style="font-size:80px;">Hey, Cassie!</h1>
+        <h2><br />Jacob is paging you.</h2>
+      </div>
+      <div style="text-align:center;padding-left:auto;padding-right:auto;margin-top:50px">
+        <button class="btn btn-negative btn-block"  style="max-width:325px; display:inline-block;" onclick="dismiss()">Dismiss</button>
+      </div>
+    </div>
+
+    <script>
+      var lastRingTimeStamp = {:time()};
+      var currentBackgroundImage = 0;
+      var backgroundImages = {$background_images|json_encode};
+      var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+      function switchBackgroundImage() {
+        $("#image-mode").css('background-image',"url('https://www.bing.com" + backgroundImages[(currentBackgroundImage++)%backgroundImages.length].url+"')");
+      }
+      switchBackgroundImage();
+      setInterval(switchBackgroundImage, 20000);
+
+      function ring() {
+        ringtone = $("#ringtone")[0];
+        ringtone.currentTime = 0;
+        ringtone.play();
+        $("#image-mode").hide();
+        $("#ringing-mode").show();
+        setTimeout(dismiss, 30000);
+      }
+
+      function dismiss() {
+        $("#ringtone")[0].pause();
+        $("#image-mode").show();
+        $("#ringing-mode").hide();
+      }
+
+      function clock_update() {
+        if($("#clock-col").css('visibility') == 'hidden') {
+          $("#clock-col").css('visibility','visible');
+        } else {
+          $("#clock-col").css('visibility','hidden');
+        }
+        now = new Date();
+        hour = now.getHours();
+        am = true;
+        if(hour >= 12) {
+          am = false;
+          hour -= (hour == 12)?0:12;
+        } else {
+          if (hour == 0) {
+            hour = 12;
+          }
+        }
+        $("#hour").text(checkDigit(hour));
+        $("#am-pm").text(am?"AM":"PM");
+        $("#minute").text(checkDigit(now.getMinutes()));
+        $("#month").text(months[now.getMonth()]);
+        $("#day").text(now.getDate());
+      }
+
+      function checkDigit(digit) {
+        return (digit < 10)?("0"+digit):digit;
+      }
+
+      setInterval(clock_update, 500);
+    </script>
+  </body>
+</html>

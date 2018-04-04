@@ -65,4 +65,24 @@ class Volunteer extends Controller {
         ->delete();
     return json("Successfully removed $ms->medical_specialty_name from your specialties.", 200);
   }
+
+  public function ipad() {
+    $this->checkVolunteerMembership();
+    $this->assign('$background_images', $this->getBingPictureOfTheDay());
+    return view();
+  }
+
+  private function getBingPictureOfTheDay() {
+    $ch = curl_init();
+    curl_setopt_array($ch,[
+      CURLOPT_URL => 'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=en-US',
+      CURLOPT_RETURNTRANSFER => true,
+    ]);
+    $rt = json_decode(curl_exec($ch), true);
+    $result = [];
+    foreach($rt['images'] as $k => $image) {
+      $result[] = ['url' => str_replace('1920x1080','1024x768',$image['url'])];
+    }
+    return $result;
+  }
 }
