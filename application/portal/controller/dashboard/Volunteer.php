@@ -68,7 +68,7 @@ class Volunteer extends Controller {
 
   public function ipad() {
     $this->checkVolunteerMembership();
-    $this->assign('$background_images', $this->getBingPictureOfTheDay());
+    $this->assign('background_images', $this->getBingPictureOfTheDay());
     return view();
   }
 
