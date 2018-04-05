@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `membership` (
 CREATE TABLE IF NOT EXISTS `patient_profile` (
   `user_id` mediumint(8) UNSIGNED NOT NULL,
   `patient_gender` enum('Male','Female','Intersex','FtM Male','MtF Female') DEFAULT NULL,
-  `patient_birthday` date DEFAULT NULL,
+  `patient_birth_year` year(4) DEFAULT NULL,
   `patient_conditions` text NOT NULL,
   `patient_allergies` text NOT NULL,
   `patient_medications` text NOT NULL,
