@@ -252,7 +252,7 @@ class Auth extends Controller {
    * @author Yinan Zhou
    * @return String the user login token
    */
-  private static function getUserLoginToken($user_id) {
+  public static function getUserLoginToken($user_id) {
     if(!Cache::has('user_login_token:' . $user_id)) {
       Cache::tag('user_login_token')->set('user_login_token:' . $user_id, uniqid());
     }
