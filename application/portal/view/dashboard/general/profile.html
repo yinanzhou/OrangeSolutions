@@ -23,6 +23,9 @@
     </tr>
   </tbody>
 </table>
+<h4 class="mt-3">Avatar</h4>
+<img src="https://www.gravatar.com/avatar/{$Think.session.user.model->user_email|trim|strtolower|md5}?s=200&d=mm&r=g" class="img-thumbnail">
+<p style="display: inline-block;">&nbsp;Manage your profile photo via <a href="https://www.gravatar.com/" target="_blank">Gravatar<span data-feather="external-link"></span></a>.</p>
 <h4 class="mt-3">User Group Membership</h4>
 <table class="table table-hover">
   <thead>
