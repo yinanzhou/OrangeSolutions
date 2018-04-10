@@ -27,7 +27,7 @@ class Volunteer extends Controller {
 
   public function specialties() {
     $uid = Auth::getUserId();
-    $this->assign('active_menu','tutor-subjects');
+    $this->assign('active_menu','volunteer-specialties');
     $this->checkVolunteerMembership();
     $this->assign('specialties',MedicalSpecialty::order('medical_specialty_name','asc')->select());
     $this->assign('masteries', MedicalSpecialtyMastery::where('user_id', $uid)->column('medical_specialty_id'));
