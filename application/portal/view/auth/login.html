@@ -126,8 +126,8 @@
   </head>
   <body class="text-center">
     <form id="login-form" method="POST" class="form-signin" onsubmit="onSubmit();">
-        <img src="/static/logo.png" alt="Orange Solutions" width="180" height="180" border="0" />
-        <h1 class="h3 mb-3 font-weight-normal" style="font-family:'Balthazar', serif;">Welcome </h1>
+        <img src="/static/logo.png" alt="Orange Solutions" height="180" border="0" stlye="display:block;" />
+        <h1 class="h3 mt-3 mb-3 font-weight-normal" style="font-family:'Balthazar', serif;">User Authentication</h1>
       <label for="input-email" class="sr-only">Email address</label>
       <input type="email" id="input-email" name="user_email" class="form-control" placeholder="Email address" required autofocus {notempty name="prefilledEmail"}value="{$prefilledEmail}"{/notempty}>
       <label for="input-password" class="sr-only">Password</label>
