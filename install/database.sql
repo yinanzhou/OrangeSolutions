@@ -89,6 +89,16 @@ CREATE TABLE IF NOT EXISTS `membership` (
   KEY `group_id` (`group_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `patient_profile` (
+  `user_id` mediumint(8) UNSIGNED NOT NULL,
+  `patient_gender` enum('Male','Female','Intersex','FtM Male','MtF Female') DEFAULT NULL,
+  `patient_birth_year` year(4) DEFAULT NULL,
+  `patient_conditions` text NOT NULL,
+  `patient_allergies` text NOT NULL,
+  `patient_medications` text NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'User ID',
   `user_email` varchar(255) DEFAULT NULL COMMENT 'Email',
@@ -103,9 +113,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 
 ALTER TABLE `medical_specialty_mastery`
-  ADD CONSTRAINT `MEDICALSPECIALTY` FOREIGN KEY (`medical_specialty_id`) REFERENCES `medical_specialty` (`medical_specialty_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `USER_MEDICALSPECIALTY` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_MEDICALSPECIALTYMASTERY_MEDICALSPECIALTY` FOREIGN KEY (`medical_specialty_id`) REFERENCES `medical_specialty` (`medical_specialty_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_MEDICALSPECIALTYMASTERY_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `membership`
-  ADD CONSTRAINT `GROUP` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_MEMBERSHIP_GROUP` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_MEMBERSHIP_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `patient_profile`
+  ADD CONSTRAINT `FK_PATIENTPROFILE_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
