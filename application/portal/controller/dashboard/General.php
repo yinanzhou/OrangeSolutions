@@ -23,7 +23,7 @@ class General extends Controller {
     return view();
   }
 
-  public function profile() {
+  public function account() {
     $this->assign('active_menu','profile');
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
