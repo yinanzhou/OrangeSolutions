@@ -9,6 +9,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous" />
     <link href="/static/dashboard.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha256-5+02zu5UULQkO7w1GIr6vftCgMfFdZcAHeDtFnKZsBs=" crossorigin="anonymous"></script>
+    <script src="/static/dashboard.js"></script>
   </head>
 
   <body>
@@ -55,73 +59,31 @@
             </ul>
             {/in}
 
-            {assign name="gid" value="3" /}
+            {assign name="gid" value="2" /}
             {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Student Services</span>
+              <span>Patient Services</span>
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="student-appointments"}active{/eq}" href="/student/appointments">
-                  <span data-feather="calendar"></span>
-                  My Appointments
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="student-availabilities"}active{/eq}" href="/student/availabilities">
-                  <span data-feather="search"></span>
-                  View Tutoring Availabilities
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="student-payment"}active{/eq}" href="/student/pay">
-                  <span data-feather="dollar-sign"></span>
-                  Make Payments
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="star"></span>
-                  Rate my tutors
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="student-refer"}active{/eq}" href="/refer">
-                  <span data-feather="share-2"></span>
-                  Refer friends
+                <a class="nav-link {eq name="active_menu" value="patient-profile"}active{/eq}" href="/patient/profile">
+                  <span data-feather="clipboard"></span>
+                  My Patient Profile
                 </a>
               </li>
             </ul>
             {/in}
 
-            {assign name="gid" value="2" /}
+            {assign name="gid" value="3" /}
             {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Tutor Services</span>
+              <span>Volunteer Services</span>
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
-                <a class="nav-link" href="/tutor/{$Think.session.user.model->user_id}" target="_blank">
-                  <span data-feather="list"></span>
-                  My Public Tutor Profile
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="tutor-appointments"}active{/eq}" href="/tutor/appointments">
-                  <span data-feather="calendar"></span>
-                  My Appointments
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="tutor-availabilities"}active{/eq}" href="/tutor/availabilities">
-                  <span data-feather="edit"></span>
-                  My Availabilities
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="tutor-subjects"}active{/eq}" href="/tutor/subjects">
+                <a class="nav-link {eq name="active_menu" value="volunteer-specialties"}active{/eq}" href="/volunteer/specialties">
                   <span data-feather="book"></span>
-                  My Subject Mastery
+                  My Medical Specialties
                 </a>
               </li>
             </ul>
@@ -135,13 +97,9 @@
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha256-5+02zu5UULQkO7w1GIr6vftCgMfFdZcAHeDtFnKZsBs=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.6.0/feather.min.js" integrity="sha256-P8ictWvW9OAkzEDi0Cgm7s35aJjjSLUFQLWRlYCbuYY=" crossorigin="anonymous"></script>
     <script>
       feather.replace()
     </script>
-    <script src="/static/dashboard.js"></script>
   </body>
 </html>

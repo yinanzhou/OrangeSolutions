@@ -13,10 +13,10 @@ class Membership extends Model
   ];
 
   public function user() {
-    return $this->belongsTo('user','user_id','user_id');
+    return $this->belongsTo('User','user_id','user_id');
   }
 
   public function group() {
-    return $this->belongsTo('group','group_id','group_id');
+    return $this->belongsTo('Group','group_id','group_id');
   }
 }
