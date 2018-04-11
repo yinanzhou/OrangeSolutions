@@ -2,6 +2,12 @@
 {block name="title"}Patient Profile{/block}
 {block name="main"}
 <h3 class="border-bottom">My Patient Profile</h3>
+<div>
+  <img src="https://www.gravatar.com/avatar/{$Think.session.user.model->user_email|trim|strtolower|md5}?s=200&d=mm&r=g" 
+  class="img-thumbnail"><p style="display: inline-block;">
+  &nbsp; <a href="https://www.gravatar.com/" target="_blank">
+  <span data-feather="external-link"></span></a>.</p>
+</div>
 <form method="POST">
   <div class="form-group">
     <label for="birthyearSelect">Year of Birth</label>
