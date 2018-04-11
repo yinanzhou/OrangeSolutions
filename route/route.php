@@ -6,7 +6,7 @@ Route::rule('register', 'portal/auth/register', 'GET|POST');
 Route::get('/logout','portal/auth/logout');
 
 Route::get('dashboard', 'portal/dashboard.general/home');
-Route::get('dashboard/profile', 'portal/dashboard.general/profile');
+Route::get('dashboard/account', 'portal/dashboard.general/account');
 
 Route::rule('patient/enroll', 'portal/dashboard.patient/enroll', 'GET|POST');
 Route::rule('patient/profile', 'portal/dashboard.patient/profile', 'GET|POST');
