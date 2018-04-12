@@ -6,6 +6,7 @@ use app\common\model\Membership;
 use app\common\model\MedicalSpecialty;
 use app\common\model\MedicalSpecialtyMastery;
 use app\common\model\User;
+use app\common\model\ServiceRequest;
 use app\portal\controller\Auth;
 use think\Controller;
 
@@ -65,4 +66,16 @@ class Volunteer extends Controller {
         ->delete();
     return json("Successfully removed $ms->medical_specialty_name from your specialties.", 200);
   }
+
+  public function checkPendingRequests(){
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $pending_requests = ServiceRequest::where('volunteer_user_id', $uid)
+        ->where('service_request_status', 'Pending')
+        ->select();
+    $this->assign('active_menu','volunteer-pending');
+    $this->assign('pending', $pending_requests);
+    return view();
+  }
 }
+?>
