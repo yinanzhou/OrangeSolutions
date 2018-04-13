@@ -47,6 +47,7 @@
     </style>
   </head>
   <body>
+    <audio id="ringtone" src="/static/volunteer-ringtone.mp3" type="audio/mpeg"></audio>
     <header class="bar bar-nav">
       <h1 class="title">OrangeSolutions Volunteer Paging System</h1>
     </header>
@@ -63,11 +64,11 @@
 
     <div id="ringing-mode" class="content" style="display:none;">
       <div style="height:300px; overflow: hidden;text-align:center;margin-top:40px;">
-        <img src="/static/jacob.png" style="height:100%; width:auto; display:inline-block; border-radius:50%;padding:4px;border:2px solid #ddd;" />
+        <img src="https://www.gravatar.com/avatar/?s=374&d=mm&r=g" style="height:100%; width:auto; display:inline-block; border-radius:50%;padding:4px;border:2px solid #ddd;" />
       </div>
       <div class="content-padded" style="text-align:center; margin-top:30px;">
-        <h1 style="font-size:80px;">Hey, Cassie!</h1>
-        <h2><br />Jacob is paging you.</h2>
+        <h1 style="font-size:80px;">Hey, Yinan!</h1>
+        <h2><br />Patient Mina Jung is requesting your help.</h2>
       </div>
       <div style="text-align:center;padding-left:auto;padding-right:auto;margin-top:50px">
         <button class="btn btn-negative btn-block"  style="max-width:325px; display:inline-block;" onclick="dismiss()">Dismiss</button>
@@ -130,6 +131,7 @@
       }
 
       setInterval(clock_update, 500);
+      setTimeout(ring,5000);
     </script>
   </body>
 </html>
