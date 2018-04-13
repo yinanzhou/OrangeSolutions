@@ -131,6 +131,9 @@ class Volunteer extends Controller {
   }
 
   public function ipad() {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
     $this->checkVolunteerMembership();
     $this->assign('background_images', $this->getBingPictureOfTheDay());
     return view();
