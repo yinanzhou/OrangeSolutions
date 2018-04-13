@@ -10,36 +10,36 @@
 </div>
 <form method="POST">
   <div class="form-group">
-    <label for="birthyearSelect">Year of Birth</label>
-    <select name="patient_birth_year" class="form-control" id="birthyearSelect" required>
-      <option id="birthyear-option-0" value="empty"></option>
+    <label for="birthyear-select">Year of Birth</label>
+    <select id="birthyear-select" name="patient_birth_year" class="form-control" required>
+      <option value="empty"></option>
       {php}
         $current_year = date('Y');
         for($y = $current_year; $y >= $current_year - 120; $y--) {
-          echo "<option id=\"birthyear-option-$y\" value=\"$y\">$y</option>";
+          echo "<option value=\"$y\">$y</option>";
         }
       {/php}
     </select>
     <script>
     {if is_null($p->patient_birth_year)}
-      $("#birthyear-option-0").attr("selected","selected");
+      $("#birthyear-select").val("empty");
     {else /}
-      $("#birthyear-option-{$p->patient_birth_year}").attr("selected","selected");
+      $("#birthyear-select").val("{$p->patient_birth_year}");
     {/if}
     </script>
   </div>
   <div class="form-group">
-    <label for="genderSelect">Gender</label>
-    <select name="patient_gender" class="form-control" id="genderSelect" required>
+    <label for="gender-select">Gender</label>
+    <select id="gender-select" name="patient_gender" class="form-control" required>
       {foreach $gender_options as $k=>$gender_option }
-        <option id="gender-option-{$k}" value="{$gender_option}">{$gender_option}</option>
+        <option value="{$gender_option}">{$gender_option}</option>
       {/foreach}
     </select>
     <script>
     {if is_null($p->patient_gender)}
-      $("#gender-option-0").attr("selected","selected");
+      $("#gender-select").val("Prefer not to answer");
     {else /}
-      $("#gender-option-{:array_search($p->patient_gender,$gender_options)}").attr("selected","selected");
+      $("#gender-select").val("{$p->patient_gender}");
     {/if}
     </script>
   </div>
