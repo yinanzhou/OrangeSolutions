@@ -23,7 +23,10 @@ function updateAvailabilityDisplay() {
 
 function toogleAvailability() {
   volunteer_available = !volunteer_available;
-  $.post("/volunteer/availability/" + volunteer_available?1:0 , function( data ) {
+  $.post("/volunteer/availability/" + (volunteer_available?1:0) , function( data ) {
     getAvailability();
   });
 }
+
+getAvailability();
+setInterval(getAvailability, 20000);
