@@ -35,6 +35,5 @@ function volunteer_ping() {
 }
 
 getAvailability();
-volunteer_ping();
 setInterval(getAvailability, 20000);
 setInterval(volunteer_ping, 10000);
