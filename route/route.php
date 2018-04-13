@@ -18,4 +18,6 @@ Route::delete('volunteer/specialties/:medical_specialty_id', 'portal/dashboard.v
 Route::post('volunteer/ping', 'portal/dashboard.volunteer/updateLastAvailableTime');
 Route::get('volunteer/availability', 'portal/dashboard.volunteer/getAvailability');
 Route::post('volunteer/availability/:status', 'portal/dashboard.volunteer/setAvailability')->pattern(['status' => '[01]']);
+Route::get('ipad', 'portal/dashboard.volunteer/ipad');
+
 return [];
