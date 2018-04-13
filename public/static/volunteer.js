@@ -28,5 +28,13 @@ function toogleAvailability() {
   });
 }
 
+function volunteer_ping() {
+  if (volunteer_available) {
+    $.post("/volunteer/ping");
+  }
+}
+
 getAvailability();
+volunteer_ping();
 setInterval(getAvailability, 20000);
+setInterval(volunteer_ping, 10000);
