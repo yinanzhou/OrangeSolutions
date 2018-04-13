@@ -101,4 +101,32 @@ class Volunteer extends Controller {
     }
     return json($volunteer_profile->volunteer_available);
   }
+
+  public function enroll() {
+    $this->assign('active_menu','volunteer-enroll');
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    if (Auth::isVolunteer()) {
+      $this->assign('message','The operation cannot be proceeded because you are already granted volunteer access to the system.');
+      return view();
+    }
+    if (!$this->request->isPost()) {
+      $this->assign('message','By clicking "Continue", you will be registered as a volunteer.');
+      $this->assign('showEnrollButton', true);
+      return view();
+    }
+    $uid = Auth::getUserId();
+    Membership::where('user_id', $uid)
+                ->where('group_id', Auth::VOLUNTEER_GROUP_ID)
+                ->delete();
+    $membership = new Membership;
+    $membership->user_id = $uid;
+    $membership->group_id = Auth::VOLUNTEER_GROUP_ID;
+    $membership->save();
+    // Refresh the user group information passed to view.
+    $this->assign('user_group_ids', Auth::getUserGroupsId());
+    $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted volunteer access to the system.</div>You can start by setting your volunteer profiles.');
+    return view();
+  }
 }
