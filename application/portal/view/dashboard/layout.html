@@ -37,9 +37,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {eq name="active_menu" value="profile"}active{/eq}" href="/dashboard/profile">
+                <a class="nav-link {eq name="active_menu" value="profile"}active{/eq}" href="/dashboard/account">
                   <span data-feather="user"></span>
-                  My Profile
+                  My Account
                 </a>
               </li>
             </ul>
@@ -59,35 +59,55 @@
             </ul>
             {/in}
 
-            {assign name="gid" value="2" /}
-            {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Patient Services</span>
             </h6>
             <ul class="nav flex-column mb-2">
+            {assign name="gid" value="2" /}
+            {in name="gid" value="$user_group_ids"}
               <li class="nav-item">
                 <a class="nav-link {eq name="active_menu" value="patient-profile"}active{/eq}" href="/patient/profile">
                   <span data-feather="clipboard"></span>
                   My Patient Profile
                 </a>
               </li>
-            </ul>
+            {else /}
+              <li class="nav-item">
+                <a class="nav-link {eq name="active_menu" value="patient-enroll"}active{/eq}" href="/patient/enroll">
+                  <span data-feather="user-plus"></span>
+                  Enroll as a patient
+                </a>
+              </li>
             {/in}
+            </ul>
 
-            {assign name="gid" value="3" /}
-            {in name="gid" value="$user_group_ids"}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Volunteer Services</span>
             </h6>
             <ul class="nav flex-column mb-2">
+            {assign name="gid" value="3" /}
+            {in name="gid" value="$user_group_ids"}
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:toogleAvailability();">
+                  Availability: <span id="volunteer-availability-display" class="badge badge-warning">Unknown</span>
+                </a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link {eq name="active_menu" value="volunteer-specialties"}active{/eq}" href="/volunteer/specialties">
                   <span data-feather="book"></span>
                   My Medical Specialties
                 </a>
               </li>
-            </ul>
+            <script src="/static/volunteer.js"></script>
+            {else /}
+              <li class="nav-item">
+                <a class="nav-link {eq name="active_menu" value="volunteer-enroll"}active{/eq}" href="/volunteer/enroll">
+                  <span data-feather="user-plus"></span>
+                  Enroll as a volunteer
+                </a>
+              </li>
             {/in}
+            </ul>
           </div>
         </nav>
 
