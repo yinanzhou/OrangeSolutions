@@ -75,7 +75,7 @@ Please also install the <code>php-curl</code> library, as curl is used when conn
 
 You do not have to use Nginx. Please note that some of the configuration are passed via environment variable, please refer to Sample Nginx configuration File for those environment variable you need to set up.
 ##### Set up database
-Please run the <code>install/install-db.sql</code> to establish the database tables.
+Please run the <code>install/database.sql</code> to establish the database tables.
 
 Please also create a database user named "orangesolutions" and grant access to "orangesolutions" database.
 

@@ -99,6 +99,18 @@ CREATE TABLE IF NOT EXISTS `patient_profile` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `service_request` (
+  `service_request_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `patient_user_id` mediumint(8) UNSIGNED NOT NULL,
+  `volunteer_user_id` mediumint(8) UNSIGNED NOT NULL,
+  `service_request_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `service_request_status` enum('Pending','Accepted','Rejected','Expired','Completed') NOT NULL DEFAULT 'Pending',
+  PRIMARY KEY (`service_request_id`),
+  KEY `patient_user_id` (`patient_user_id`),
+  KEY `volunteer_user_id` (`volunteer_user_id`),
+  KEY `service_request_status` (`service_request_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'User ID',
   `user_email` varchar(255) DEFAULT NULL COMMENT 'Email',
@@ -109,7 +121,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_password` varchar(256) DEFAULT NULL COMMENT 'Password',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `USER_EMAIL_INDEX` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `volunteer_profile` (
+  `user_id` mediumint(8) UNSIGNED NOT NULL,
+  `volunteer_phone` varchar(30) DEFAULT NULL,
+  `volunteer_last_available_time` datetime DEFAULT NULL,
+  `volunteer_available` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`user_id`),
+  KEY `volunteer_last_available_time` (`volunteer_last_available_time`),
+  KEY `volunteer_available` (`volunteer_available`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 ALTER TABLE `medical_specialty_mastery`
@@ -122,3 +144,10 @@ ALTER TABLE `membership`
 
 ALTER TABLE `patient_profile`
   ADD CONSTRAINT `FK_PATIENTPROFILE_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `service_request`
+  ADD CONSTRAINT `FX_SERVICEREQUEST_PATIENT` FOREIGN KEY (`patient_user_id`) REFERENCES `patient_profile` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FX_SERVICEREQUEST_VOLUNTEER` FOREIGN KEY (`patient_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `volunteer_profile`
+  ADD CONSTRAINT `FK_VOLUNTEERPROFILE_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;

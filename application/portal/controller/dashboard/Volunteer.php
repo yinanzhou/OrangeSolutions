@@ -7,6 +7,7 @@ use app\common\model\MedicalSpecialty;
 use app\common\model\MedicalSpecialtyMastery;
 use app\common\model\User;
 use app\common\model\ServiceRequest;
+use app\common\model\VolunteerProfile;
 use app\portal\controller\Auth;
 use think\Controller;
 
@@ -67,15 +68,37 @@ class Volunteer extends Controller {
     return json("Successfully removed $ms->medical_specialty_name from your specialties.", 200);
   }
 
-  public function checkPendingRequests(){
+  public function updateLastAvailableTime() {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
-    $pending_requests = ServiceRequest::where('volunteer_user_id', $uid)
-        ->where('service_request_status', 'Pending')
-        ->select();
-    $this->assign('active_menu','volunteer-pending');
-    $this->assign('pending', $pending_requests);
-    return view();
+    $volunteer_profile = VolunteerProfile::find($uid);
+    if ($volunteer_profile == null) {
+      $volunteer_profile = new VolunteerProfile;
+      $volunteer_profile->user_id = $uid;
+    }
+    $volunteer_profile->volunteer_last_available_time = date('Y-m-d H:i:s');
+    $volunteer_profile->save();
+  }
+
+  public function setAvailability($status) {
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $volunteer_profile = VolunteerProfile::find($uid);
+    if ($volunteer_profile == null) {
+      $volunteer_profile = new VolunteerProfile;
+      $volunteer_profile->user_id = $uid;
+    }
+    $volunteer_profile->volunteer_available = $status;
+    $volunteer_profile->save();
+  }
+
+  public function getAvailability() {
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $volunteer_profile = VolunteerProfile::find($uid);
+    if ($volunteer_profile == null) {
+      return json(0);
+    }
+    return json($volunteer_profile->volunteer_available);
   }
 }
-?>

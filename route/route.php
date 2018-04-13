@@ -13,4 +13,7 @@ Route::rule('patient/profile', 'portal/dashboard.patient/profile', 'GET|POST');
 Route::get('volunteer/specialties', 'portal/dashboard.volunteer/specialties');
 Route::post('volunteer/specialties/:medical_specialty_id', 'portal/dashboard.volunteer/addSpecialty');
 Route::delete('volunteer/specialties/:medical_specialty_id', 'portal/dashboard.volunteer/removeSpecialty');
+Route::post('volunteer/ping', 'portal/dashboard.volunteer/updateLastAvailableTime');
+Route::get('volunteer/availability', 'portal/dashboard.volunteer/getAvailability');
+Route::post('volunteer/availability/:status', 'portal/dashboard.volunteer/setAvailability')->pattern(['status' => '[01]']);
 return [];
