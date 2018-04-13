@@ -81,12 +81,18 @@
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
+                <a class="nav-link" href="javascript:toogleAvailability();">
+                  Availability: <span id="volunteer-availability-display" class="badge badge-warning">Unknown</span>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link {eq name="active_menu" value="volunteer-specialties"}active{/eq}" href="/volunteer/specialties">
                   <span data-feather="book"></span>
                   My Medical Specialties
                 </a>
               </li>
             </ul>
+            <script src="/static/volunteer.js"></script>
             {/in}
           </div>
         </nav>
