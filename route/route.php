@@ -11,6 +11,7 @@ Route::get('dashboard/account', 'portal/dashboard.general/account');
 Route::rule('patient/enroll', 'portal/dashboard.patient/enroll', 'GET|POST');
 Route::rule('patient/profile', 'portal/dashboard.patient/profile', 'GET|POST');
 
+Route::rule('volunteer/enroll', 'portal/dashboard.volunteer/enroll', 'GET|POST');
 Route::get('volunteer/specialties', 'portal/dashboard.volunteer/specialties');
 Route::post('volunteer/specialties/:medical_specialty_id', 'portal/dashboard.volunteer/addSpecialty');
 Route::delete('volunteer/specialties/:medical_specialty_id', 'portal/dashboard.volunteer/removeSpecialty');

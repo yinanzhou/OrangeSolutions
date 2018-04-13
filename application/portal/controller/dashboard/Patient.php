@@ -48,7 +48,7 @@ class Patient extends Controller {
     $membership->save();
     // Refresh the user group information passed to view.
     $this->assign('user_group_ids', Auth::getUserGroupsId());
-    $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted patient access to the system.</div>You should able to see the patient service menu on the left.');
+    $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted patient access to the system.</div>You should able to see the patient service menu on the left. You can start by updating your patient profiles.');
     return view();
   }
 
