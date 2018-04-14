@@ -9,24 +9,13 @@
   <span data-feather="external-link"></span></a>.</p>
 </div>
 <form method="POST">
-  <div class="form-group">
-    <label for="birthyear-select">Year of Birth</label>
-    <select id="birthyear-select" name="patient_birth_year" class="form-control" required>
-      <option value="empty"></option>
-      {php}
-        $current_year = date('Y');
-        for($y = $current_year; $y >= $current_year - 120; $y--) {
-          echo "<option value=\"$y\">$y</option>";
-        }
-      {/php}
-    </select>
-    <script>
-    {if is_null($p->patient_birth_year)}
-      $("#birthyear-select").val("empty");
-    {else /}
-      $("#birthyear-select").val("{$p->patient_birth_year}");
-    {/if}
-    </script>
+	<div class="form-group">
+		
+		<label for="addressTextarea">Address and Contact</label>
+		<textarea class="form-control" id="addressTextarea" name="volunteer_address" wrap="hard" rows="5" maxlength="65534">{$p->volunteer_address}</textarea>
+	</div>
+   
+
   </div>
   <div class="form-group">
     <label for="gender-select">Gender</label>
@@ -44,18 +33,11 @@
     </script>
   </div>
   <div class="form-group">
-    <label for="coditionTextarea">Conditions</label>
-    <textarea class="form-control" id="coditionTextarea" name="patient_conditions" wrap="hard" rows="5" maxlength="65534">{$p->patient_conditions}</textarea>
+    <label for="bioTextarea">Write a short description of yourself</label>
+    <textarea class="form-control" id="bioTextarea" name="volunteer_bio" wrap="hard" rows="5" maxlength="65534">{$p->volunteer_bio}</textarea>
   </div>
-  <div class="form-group">
-    <label for="allergiesTextarea">Allergies</label>
-    <textarea class="form-control" id="allergiesTextarea" name="patient_allergies" wrap="hard" rows="5" maxlength="65534">{$p->patient_allergies}</textarea>
-    <small id="passwordHelpBlock" class="form-text text-muted">For more information on allergies, visit <a href="http://www.aafa.org/page/allergies.aspx" target="_blank">Asthma and Allergy Foundation of America<span data-feather="external-link"></span></a>.</small>
-  </div>
-  <div class="form-group">
-    <label for="medicationsTextarea">Medications</label>
-    <textarea class="form-control" id="medicationsTextarea" name="patient_medications" wrap="hard" rows="5" maxlength="65534" placeholder="Medications you are currently taking">{$p->patient_medications}</textarea>
-  </div>
+  
+  
   <button class="btn btn-primary" type="submit">Update Profile</button>
 </form>
 <script>
