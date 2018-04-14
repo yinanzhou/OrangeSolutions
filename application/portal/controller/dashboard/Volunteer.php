@@ -152,4 +152,9 @@ class Volunteer extends Controller {
     }
     return $result;
   }
+
+  public function ring() {
+    $this->checkVolunteerMembership();
+    return view();
+  }
 }

@@ -21,5 +21,6 @@ Route::post('volunteer/ping', 'portal/dashboard.volunteer/updateLastAvailableTim
 Route::get('volunteer/availability', 'portal/dashboard.volunteer/getAvailability');
 Route::post('volunteer/availability/:status', 'portal/dashboard.volunteer/setAvailability')->pattern(['status' => '[01]']);
 Route::get('ipad', 'portal/dashboard.volunteer/ipad');
+Route::get('volunteer/ring', 'portal/dashboard.volunteer/ring');
 
 return [];

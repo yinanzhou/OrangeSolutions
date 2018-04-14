@@ -34,6 +34,14 @@ function volunteer_ping() {
   }
 }
 
+function close_ringing() {
+  $(".ring-screen").remove();
+}
+
+function ring() {
+  $("body").prepend('<iframe src="/volunteer/ring" class="ring-screen"></iframe>');
+}
+
 getAvailability();
 setInterval(getAvailability, 20000);
 setInterval(volunteer_ping, 10000);
