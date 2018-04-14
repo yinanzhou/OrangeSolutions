@@ -14,7 +14,39 @@
         else{echo 'Evening';}
       {/php}
       , {$Think.session.user.model->user_firstname}!</p>
- <h3 class="border-bottom">Health News</h3>
+      <div class="card-deck">
+        <div class="card">
+          <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/9/91/Preston_Burke.jpg" alt="Card image cap" width="160" height="280">
+          <div class="card-body">
+            <a class="card-title" href="url"><h5>General Practioner</h5> </a>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img-top" src="http://photos.summer-glau.com/albums/userpics/10001/d9/greysanatomy_HQ_stills_28129.jpg" alt="Card image cap" width="160" height="280">
+          <div class="card-body">
+            <a class="card-title" href="url"><h5>Specialist</h5> </a>
+            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img-top" src="https://cdn.geekwire.com/wp-content/uploads/2017/04/Franciscancarena.png" alt="Card image cap" width="180" height="280">
+          <div class="card-body">
+            <a class="card-title" href="url"><h5>Virtual Specialist</h5> </a>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>
+      <h3 class="border-bottom">Health News</h3>
  <div id="healthNewsSlides" class="carousel slide" data-ride="carousel" data-interval="5000" data-keyboard="false" data-pause="false">
   <ol class="carousel-indicators">
           <li data-target="#healthNewsSlides" data-slide-to="0" class="active"></li>
@@ -46,4 +78,7 @@
 </div>
   </div>
 </div>
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Balthazar');
+  </style>
 {/block}
