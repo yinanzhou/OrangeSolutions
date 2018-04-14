@@ -1,0 +1,64 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Volunteer Profile{/block}
+{block name="main"}
+<h3 class="border-bottom">My Volunteer Profile</h3>
+<div>
+  <img src="https://www.gravatar.com/avatar/{$Think.session.user.model->user_email|trim|strtolower|md5}?s=200&d=mm&r=g" 
+  class="img-thumbnail"><p style="display: inline-block;">
+  &nbsp; <a href="https://www.gravatar.com/" target="_blank">
+  <span data-feather="external-link"></span></a>.</p>
+</div>
+<form method="POST">
+  <div class="form-group">
+    <label for="birthyear-select">Year of Birth</label>
+    <select id="birthyear-select" name="patient_birth_year" class="form-control" required>
+      <option value="empty"></option>
+      {php}
+        $current_year = date('Y');
+        for($y = $current_year; $y >= $current_year - 120; $y--) {
+          echo "<option value=\"$y\">$y</option>";
+        }
+      {/php}
+    </select>
+    <script>
+    {if is_null($p->patient_birth_year)}
+      $("#birthyear-select").val("empty");
+    {else /}
+      $("#birthyear-select").val("{$p->patient_birth_year}");
+    {/if}
+    </script>
+  </div>
+  <div class="form-group">
+    <label for="gender-select">Gender</label>
+    <select id="gender-select" name="patient_gender" class="form-control" required>
+      {foreach $gender_options as $k=>$gender_option }
+        <option value="{$gender_option}">{$gender_option}</option>
+      {/foreach}
+    </select>
+    <script>
+    {if is_null($p->patient_gender)}
+      $("#gender-select").val("Prefer not to answer");
+    {else /}
+      $("#gender-select").val("{$p->patient_gender}");
+    {/if}
+    </script>
+  </div>
+  <div class="form-group">
+    <label for="coditionTextarea">Conditions</label>
+    <textarea class="form-control" id="coditionTextarea" name="patient_conditions" wrap="hard" rows="5" maxlength="65534">{$p->patient_conditions}</textarea>
+  </div>
+  <div class="form-group">
+    <label for="allergiesTextarea">Allergies</label>
+    <textarea class="form-control" id="allergiesTextarea" name="patient_allergies" wrap="hard" rows="5" maxlength="65534">{$p->patient_allergies}</textarea>
+    <small id="passwordHelpBlock" class="form-text text-muted">For more information on allergies, visit <a href="http://www.aafa.org/page/allergies.aspx" target="_blank">Asthma and Allergy Foundation of America<span data-feather="external-link"></span></a>.</small>
+  </div>
+  <div class="form-group">
+    <label for="medicationsTextarea">Medications</label>
+    <textarea class="form-control" id="medicationsTextarea" name="patient_medications" wrap="hard" rows="5" maxlength="65534" placeholder="Medications you are currently taking">{$p->patient_medications}</textarea>
+  </div>
+  <button class="btn btn-primary" type="submit">Update Profile</button>
+</form>
+<script>
+  {notempty name="alert"}alert({$alert|raw|json_encode});{/notempty}
+</script>
+{/block}
