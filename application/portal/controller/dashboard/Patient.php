@@ -82,4 +82,18 @@ class Patient extends Controller {
     $this->assign('p', $profile);
     return view();
   }
+
+  public function donate() {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $this->assign('active_menu','patient-donation');
+    $this->checkPatientMembership();
+    return view();
+  }
+
+  public function redirectToPaypal() {
+    $this->checkPatientMembership();
+    return redirect('https://paypal.me/yinan/' . input('post.amount/f') . 'USD');
+  }
 }
