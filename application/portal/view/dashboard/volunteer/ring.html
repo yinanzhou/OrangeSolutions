@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet-theme-ios.min.css" integrity="sha256-B7gPdsj6c19Y2Ew3t9FNmEpH3tKNixjU/T69nljzVRo=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/js/ratchet.min.js" integrity="sha256-3AJ3v9rphXD8v8M8s18kNcv8P08gcvnsInoSYx7ipSg=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inobounce/0.1.5/inobounce.min.js" integrity="sha256-EPsorOZo3Uo2if0mO1hup6cfKcQC21dus/eCWW+HrGQ=" crossorigin="anonymous"></script>
     <style>
       .updated-text {
@@ -58,21 +57,33 @@
       </div>
       <div class="content-padded" style="text-align:center; margin-top:30px;">
         <h2>Patient service request from</h2>
-        <h1 style="font-size:72px;">Mina Jung</h1>
+        <h1 style="font-size:60px;">{$patient_name}</h1>
       </div>
       <div style="text-align:center;padding-left:auto;padding-right:auto;margin-top:50px">
-        <button class="btn btn-negative btn-block"  style="max-width:325px; display:inline-block;" onclick="close()">Dismiss</button>
+        <a class="btn btn-positive btn-block" style="max-width:325px; display:inline-block;" href="javascript:accept();" role="button">Accept</a><br />
+        <a class="btn btn-negative btn-block" style="max-width:325px; display:inline-block;" href="javascript:reject();" role="button">Reject</a>
       </div>
     </div>
 
     <script>
-      function ring() {
-        ringtone = $("#ringtone")[0];
-        ringtone.currentTime = 0;
-        ringtone.play();
-        $("#image-mode").hide();
-        $("#ringing-mode").show();
-        setTimeout(close, 30000);
+      var current_service_request_id = {$service_request_id};
+      var expire_handle;
+
+      function accept() {
+        clearTimeout(expire_handle);
+        parent.update_service_request_status(current_service_request_id, 'Accepted');
+        close();
+      }
+
+      function reject() {
+        clearTimeout(expire_handle);
+        parent.update_service_request_status(current_service_request_id, 'Rejected');
+        close();
+      }
+
+      function expired() {
+        parent.update_service_request_status(current_service_request_id, 'Expired');
+        close();
       }
 
       function close() {
@@ -80,7 +91,10 @@
         parent.close_ringing();
       }
 
-      ring();
+      ringtone = $("#ringtone")[0];
+      ringtone.currentTime = 0;
+      ringtone.play();
+      expire_handle = setTimeout(expired, 30000);
     </script>
   </body>
 </html>

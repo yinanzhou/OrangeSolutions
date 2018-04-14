@@ -68,18 +68,6 @@ class Volunteer extends Controller {
     return json("Successfully removed $ms->medical_specialty_name from your specialties.", 200);
   }
 
-  public function updateLastAvailableTime() {
-    $this->checkVolunteerMembership();
-    $uid = Auth::getUserId();
-    $volunteer_profile = VolunteerProfile::find($uid);
-    if ($volunteer_profile == null) {
-      $volunteer_profile = new VolunteerProfile;
-      $volunteer_profile->user_id = $uid;
-    }
-    $volunteer_profile->volunteer_last_available_time = date('Y-m-d H:i:s');
-    $volunteer_profile->save();
-  }
-
   public function setAvailability($status) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -90,16 +78,6 @@ class Volunteer extends Controller {
     }
     $volunteer_profile->volunteer_available = $status;
     $volunteer_profile->save();
-  }
-
-  public function getAvailability() {
-    $this->checkVolunteerMembership();
-    $uid = Auth::getUserId();
-    $volunteer_profile = VolunteerProfile::find($uid);
-    if ($volunteer_profile == null) {
-      return json(0);
-    }
-    return json($volunteer_profile->volunteer_available);
   }
 
   public function enroll() {
@@ -153,8 +131,76 @@ class Volunteer extends Controller {
     return $result;
   }
 
-  public function ring() {
+  public function ring($service_request_id) {
     $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $service_request = ServiceRequest::where('service_request_id', $service_request_id)
+        ->where('service_request_status','Pending')
+        ->where('volunteer_user_id',$uid)
+        ->find();
+    if ($service_request == null) {
+      abort(404);
+      return;
+    }
+    $this->assign('service_request_id', $service_request_id);
+    $patient = User::find($service_request->patient_user_id);
+    if ($patient == null) {
+      abort(404);
+      return;
+    }
+    $this->assign('patient_name', "$patient->user_firstname $patient->user_lastname");
     return view();
+  }
+
+  public function getStatus() {
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $volunteer_profile = VolunteerProfile::find($uid);
+    if ($volunteer_profile == null) {
+      $volunteer_profile = new VolunteerProfile;
+      $volunteer_profile = $uid;
+      $volunteer_profile->save();
+    }
+    $rtn['availability'] = $volunteer_profile->volunteer_available;
+    if ($volunteer_profile->volunteer_available) {
+      $volunteer_profile->volunteer_last_available_time = date('Y-m-d H:i:s');
+      $volunteer_profile->save();
+    }
+    $service_request = ServiceRequest::where('service_request_status','Pending')
+        ->where('volunteer_user_id',$uid)
+        ->find();
+    if (!$service_request == null) {
+      $rtn['pending_service_request_id'] = $service_request->service_request_id;
+    } else {
+      $rtn['pending_service_request_id'] = null;
+    }
+    return json($rtn);
+  }
+
+  public function updateServiceRequestStatus($service_request_id) {
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $service_request = ServiceRequest::where('service_request_id', $service_request_id)
+        ->where('volunteer_user_id',$uid)
+        ->find();
+    if ($service_request == null) {
+      abort(404);
+      return;
+    }
+    if (in_array($service_request->service_request_status, ['Rejected','Expired','Completed','Rejected (Volunteer Busy)'])) {
+      // No changes allowed to finalized service requests
+      return;
+    }
+    if ($service_request->service_request_status == 'Accepted') {
+      $allowable_new_states = ['Completed'];
+    } else {
+      $allowable_new_states = ['Accepted','Rejected','Expired','Rejected (Volunteer Busy)'];
+    }
+    if (!in_array(input('post.service_request_status'),$allowable_new_states)) {
+      // New state is not allowed
+      return;
+    }
+    $service_request->service_request_status = input('post.service_request_status');
+    $service_request->save();
   }
 }
