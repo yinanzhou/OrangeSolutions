@@ -12,6 +12,7 @@ Route::rule('patient/enroll', 'portal/dashboard.patient/enroll', 'GET|POST');
 Route::rule('patient/profile', 'portal/dashboard.patient/profile', 'GET|POST');
 Route::get('patient/donate', 'portal/dashboard.patient/donate');
 Route::post('patient/donate/paypal', 'portal/dashboard.patient/redirectToPaypal');
+Route::get('patient/service_request', 'portal/dashboard.patient/demoRequest');
 
 Route::rule('volunteer/enroll', 'portal/dashboard.volunteer/enroll', 'GET|POST');
 Route::get('volunteer/specialties', 'portal/dashboard.volunteer/specialties');
