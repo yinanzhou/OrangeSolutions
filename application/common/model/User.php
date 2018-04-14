@@ -33,4 +33,8 @@ class User extends Model
   protected function setUserEmailAttr($value) {
     return strtolower($value);
   }
+
+  public function getGravatarHashAttr($value,$data) {
+    return md5(strtolower(trim($this->getAttr('user_email'))));
+  }
 }
