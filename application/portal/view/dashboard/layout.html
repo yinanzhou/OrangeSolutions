@@ -71,6 +71,12 @@
                   My Patient Profile
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link {eq name="active_menu" value="patient-donation"}active{/eq}" href="/patient/donate">
+                  <span data-feather="dollar-sign"></span>
+                  Donate to OrangeSolutions
+                </a>
+              </li>
             {else /}
               <li class="nav-item">
                 <a class="nav-link {eq name="active_menu" value="patient-enroll"}active{/eq}" href="/patient/enroll">
@@ -88,11 +94,17 @@
             {assign name="gid" value="3" /}
             {in name="gid" value="$user_group_ids"}
               <li class="nav-item">
+                <a class="nav-link" href="javascript:toogleAvailability();">
+                  Availability: <span id="volunteer-availability-display" class="badge badge-warning">Unknown</span>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link {eq name="active_menu" value="volunteer-specialties"}active{/eq}" href="/volunteer/specialties">
                   <span data-feather="book"></span>
                   My Medical Specialties
                 </a>
               </li>
+            <script src="/static/volunteer.js"></script>
             {else /}
               <li class="nav-item">
                 <a class="nav-link {eq name="active_menu" value="volunteer-enroll"}active{/eq}" href="/volunteer/enroll">
