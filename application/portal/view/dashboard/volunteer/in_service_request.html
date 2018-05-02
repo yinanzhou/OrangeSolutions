@@ -47,11 +47,11 @@
       <h4>Year of Birth</h4>
       <p>{$birth_year}</p>
       <h4>Conditions</h4>
-      <p>{$conditions}</p>
+      <p>{$conditions|htmlspecialchars|nl2br|raw}</p>
       <h4>Allergies</h4>
-      <p>{$allergies}</p>
+      <p>{$allergies|htmlspecialchars|nl2br|raw}</p>
       <h4>Medications</h4>
-      <p>{$medications}</p>
+      <p>{$medications|htmlspecialchars|nl2br|raw}</p>
     </main>
 
     <footer class="footer">
