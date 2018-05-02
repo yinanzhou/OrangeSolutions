@@ -47,12 +47,18 @@ class Patient extends Controller {
     $membership->user_id = $uid;
     $membership->group_id = Auth::PATIENT_GROUP_ID;
     $membership->save();
+    $profile = PatientProfile::find($uid);
+    if ($profile == null) {
+      $profile = new PatientProfile;
+      $profile->user_id = $uid;
+      $profile->save();
+      $profile = PatientProfile::find($uid);
+    }
     // Refresh the user group information passed to view.
     $this->assign('user_group_ids', Auth::getUserGroupsId());
     $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted patient access to the system.</div>You should able to see the patient service menu on the left. You can start by updating your patient profiles.');
     return view();
   }
-
 
   public function profile() {
     if (!Auth::isLogin()) {

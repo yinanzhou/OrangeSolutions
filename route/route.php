@@ -24,5 +24,6 @@ Route::get('ipad', 'portal/dashboard.volunteer/ipad');
 Route::get('volunteer/ring/:service_request_id', 'portal/dashboard.volunteer/ring')->pattern(['service_request_id' => '\d+']);
 Route::post('volunteer/service-requests/:service_request_id', 'portal/dashboard.volunteer/updateServiceRequestStatus')->pattern(['service_request_id' => '\d+']);
 Route::get('volunteer/profile', 'portal/dashboard.volunteer/publicProfile');
+Route::get('volunteer/service-request/in/:service_request_id', 'portal/dashboard.volunteer/inServiceRequest')->pattern(['service_request_id' => '\d+']);
 
 return [];

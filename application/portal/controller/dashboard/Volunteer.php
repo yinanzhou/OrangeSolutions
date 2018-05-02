@@ -5,6 +5,7 @@ namespace app\portal\controller\dashboard;
 use app\common\model\Membership;
 use app\common\model\MedicalSpecialty;
 use app\common\model\MedicalSpecialtyMastery;
+use app\common\model\PatientProfile;
 use app\common\model\User;
 use app\common\model\ServiceRequest;
 use app\common\model\VolunteerProfile;
@@ -211,5 +212,26 @@ class Volunteer extends Controller {
   public function publicProfile() {
     $this->assign('active_menu','');
     return view('public_profile');
+  }
+
+  public function inServiceRequest($service_request_id) {
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $service_request = ServiceRequest::where('service_request_id', $service_request_id)->where('volunteer_user_id',$uid)->find();
+    if ($service_request == null) {
+      abort(404);
+      return;
+    }
+    $user = User::find($service_request->patient_user_id);
+    $this->assign('name', $user->user_firstname . (is_null($user->user_middlename)?"":" $user->user_middlename") . " $user->user_lastname");
+    $p = PatientProfile::find($service_request->patient_user_id);
+    $this->assign('id', $service_request_id);
+    $this->assign('gravatar_hash', $user->gravatar_hash);
+    $this->assign('gender', (is_null($p->patient_gender)?"Not Provided":$p->patient_gender));
+    $this->assign('birth_year', (is_null($p->patient_birth_year)?"Not Provided":$p->patient_birth_year));
+    $this->assign('conditions',$p->patient_conditions);
+    $this->assign('allergies',$p->patient_allergies);
+    $this->assign('medications',$p->patient_medications);
+    return view('in_service_request');
   }
 }

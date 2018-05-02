@@ -73,6 +73,7 @@
         clearTimeout(expire_handle);
         parent.update_service_request_status(current_service_request_id, 'Accepted');
         mute();
+        this.location.href = "/volunteer/service-request/in/" + current_service_request_id;
       }
 
       function reject() {
