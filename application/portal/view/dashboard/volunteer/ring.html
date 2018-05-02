@@ -72,7 +72,7 @@
       function accept() {
         clearTimeout(expire_handle);
         parent.update_service_request_status(current_service_request_id, 'Accepted');
-        close();
+        mute();
       }
 
       function reject() {
@@ -86,8 +86,12 @@
         close();
       }
 
-      function close() {
+      function mute() {
         $("#ringtone")[0].pause();
+      }
+
+      function close() {
+        mute();
         parent.close_ringing();
       }
 
