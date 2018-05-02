@@ -166,6 +166,10 @@ class Volunteer extends Controller {
       $volunteer_profile->volunteer_last_available_time = date('Y-m-d H:i:s');
       $volunteer_profile->save();
     }
+    ServiceRequest::where('service_request_status','Pending')
+        ->whereTime('service_request_time','<','-30 seconds')
+        ->data(['service_request_status'=>'Expired'])
+        ->update();
     $service_request = ServiceRequest::where('service_request_status','Pending')
         ->where('volunteer_user_id',$uid)
         ->find();
