@@ -242,8 +242,25 @@ class Volunteer extends Controller {
     return view();
   }
 
-  public function publicProfile() {
+  public function publicProfile($user_id) {
     $this->assign('active_menu','');
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    if(!Auth::isVolunteer($user_id)){
+      abort(404);
+      return;
+    }
+    $profile = VolunteerProfile::find($user_id);
+    $user = User::find($user_id);
+    $this->assign('gravatar_hash', $user->gravatar_hash);
+    $this->assign('name', $user->user_firstname . (is_null($user->user_middlename)?"":" $user->user_middlename") . " $user->user_lastname");
+    $this->assign('description', $profile->volunteer_description);
+    $this->assign('specialties',MedicalSpecialtyMastery::alias('msm')
+        ->where('msm.user_id', $user_id)
+        ->join('medical_specialty ms','msm.medical_specialty_id=ms.medical_specialty_id','LEFT')
+        ->order('ms.medical_specialty_name')
+        ->select());
     return view('public_profile');
   }
 
