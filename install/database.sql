@@ -104,12 +104,13 @@ CREATE TABLE IF NOT EXISTS `service_request` (
   `patient_user_id` mediumint(8) UNSIGNED NOT NULL,
   `volunteer_user_id` mediumint(8) UNSIGNED NOT NULL,
   `service_request_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `service_request_status` enum('Pending','Accepted','Rejected','Expired','Completed') NOT NULL DEFAULT 'Pending',
+  `service_request_status` enum('Pending','Accepted','Rejected','Expired','Completed','Rejected (Volunteer Busy)') NOT NULL DEFAULT 'Pending',
+  `service_request_rating` tinyint(3) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`service_request_id`),
   KEY `patient_user_id` (`patient_user_id`),
   KEY `volunteer_user_id` (`volunteer_user_id`),
   KEY `service_request_status` (`service_request_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'User ID',
@@ -121,13 +122,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_password` varchar(256) DEFAULT NULL COMMENT 'Password',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `USER_EMAIL_INDEX` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `volunteer_profile` (
   `user_id` mediumint(8) UNSIGNED NOT NULL,
-  `volunteer_phone` varchar(30) DEFAULT NULL,
+  `volunteer_phone` varchar(30) NOT NULL DEFAULT '',
   `volunteer_last_available_time` datetime DEFAULT NULL,
   `volunteer_available` tinyint(1) NOT NULL DEFAULT '1',
+  `volunteer_description` text NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `volunteer_last_available_time` (`volunteer_last_available_time`),
   KEY `volunteer_available` (`volunteer_available`)

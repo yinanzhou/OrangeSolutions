@@ -16,11 +16,16 @@
               .star-checked {color: blue;}
             </style>
             <h5>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
+              {if is_null($rating)}
+              No Rating Data Available
+              {else /}
+              {:number_format($rating,1)}
+              <span class="fa fa-star {egt name="rating" value="1"}star-checked{/egt}"></span>
+              <span class="fa fa-star {egt name="rating" value="2"}star-checked{/egt}"></span>
+              <span class="fa fa-star {egt name="rating" value="3"}star-checked{/egt}"></span>
+              <span class="fa fa-star {egt name="rating" value="4"}star-checked{/egt}"></span>
+              <span class="fa fa-star {egt name="rating" value="5"}star-checked{/egt}"></span>
+              {/if}
            </h5>
          </div>
       </div>

@@ -256,6 +256,7 @@ class Volunteer extends Controller {
     $this->assign('gravatar_hash', $user->gravatar_hash);
     $this->assign('name', $user->user_firstname . (is_null($user->user_middlename)?"":" $user->user_middlename") . " $user->user_lastname");
     $this->assign('description', $profile->volunteer_description);
+    $this->assign('rating', $profile->rating);
     $this->assign('specialties',MedicalSpecialtyMastery::alias('msm')
         ->where('msm.user_id', $user_id)
         ->join('medical_specialty ms','msm.medical_specialty_id=ms.medical_specialty_id','LEFT')
