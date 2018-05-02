@@ -203,4 +203,9 @@ class Volunteer extends Controller {
     $service_request->service_request_status = input('post.service_request_status');
     $service_request->save();
   }
+
+  public function publicProfile() {
+    $this->assign('active_menu','');
+    return view('public_profile');
+  }
 }

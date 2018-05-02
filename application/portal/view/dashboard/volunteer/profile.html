@@ -1,0 +1,46 @@
+{extend name="../application/portal/view/dashboard/layout.html" /}
+{block name="title"}Volunteer Profile{/block}
+{block name="main"}
+<h3 class="border-bottom">My Volunteer Profile</h3>
+<div>
+  <img src="https://www.gravatar.com/avatar/{$Think.session.user.model->user_email|trim|strtolower|md5}?s=200&d=mm&r=g" 
+  class="img-thumbnail"><p style="display: inline-block;">
+  &nbsp; <a href="https://www.gravatar.com/" target="_blank">
+  <span data-feather="external-link"></span></a>.</p>
+</div>
+<form method="POST">
+	<div class="form-group">
+		
+		<label for="addressTextarea">Address and Contact</label>
+		<textarea class="form-control" id="addressTextarea" name="volunteer_address" wrap="hard" rows="5" maxlength="65534">{$p->volunteer_address}</textarea>
+	</div>
+   
+
+  </div>
+  <div class="form-group">
+    <label for="gender-select">Gender</label>
+    <select id="gender-select" name="patient_gender" class="form-control" required>
+      {foreach $gender_options as $k=>$gender_option }
+        <option value="{$gender_option}">{$gender_option}</option>
+      {/foreach}
+    </select>
+    <script>
+    {if is_null($p->patient_gender)}
+      $("#gender-select").val("Prefer not to answer");
+    {else /}
+      $("#gender-select").val("{$p->patient_gender}");
+    {/if}
+    </script>
+  </div>
+  <div class="form-group">
+    <label for="bioTextarea">Write a short description of yourself</label>
+    <textarea class="form-control" id="bioTextarea" name="volunteer_bio" wrap="hard" rows="5" maxlength="65534">{$p->volunteer_bio}</textarea>
+  </div>
+  
+  
+  <button class="btn btn-primary" type="submit">Update Profile</button>
+</form>
+<script>
+  {notempty name="alert"}alert({$alert|raw|json_encode});{/notempty}
+</script>
+{/block}

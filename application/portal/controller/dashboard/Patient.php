@@ -5,6 +5,7 @@ namespace app\portal\controller\dashboard;
 use app\common\model\Appointment;
 use app\common\model\Membership;
 use app\common\model\PatientProfile;
+use app\common\model\ServiceRequest;
 use app\portal\controller\Auth;
 use think\Controller;
 
@@ -95,5 +96,17 @@ class Patient extends Controller {
   public function redirectToPaypal() {
     $this->checkPatientMembership();
     return redirect('https://paypal.me/yinan/' . input('post.amount/f') . 'USD');
+  }
+
+  public function demoRequest() {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $uid = Auth::getUserId();
+    $this->checkPatientMembership();
+    $service_request = new ServiceRequest;
+    $service_request->patient_user_id = $uid;
+    $service_request->volunteer_user_id = 1;
+    $service_request->save();
   }
 }
