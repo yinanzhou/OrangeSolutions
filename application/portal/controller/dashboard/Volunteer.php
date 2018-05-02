@@ -149,6 +149,7 @@ class Volunteer extends Controller {
       abort(404);
       return;
     }
+    $this->assign('gravatar_hash', $patient->gravatar_hash);
     $this->assign('patient_name', "$patient->user_firstname $patient->user_lastname");
     return view();
   }
