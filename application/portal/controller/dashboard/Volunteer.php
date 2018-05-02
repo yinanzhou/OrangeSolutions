@@ -103,6 +103,14 @@ class Volunteer extends Controller {
     $membership->user_id = $uid;
     $membership->group_id = Auth::VOLUNTEER_GROUP_ID;
     $membership->save();
+
+    $volunteer_profile = VolunteerProfile::find($uid);
+    if ($volunteer_profile == null) {
+      $volunteer_profile = new VolunteerProfile;
+      $volunteer_profile = $uid;
+      $volunteer_profile->save();
+    }
+
     // Refresh the user group information passed to view.
     $this->assign('user_group_ids', Auth::getUserGroupsId());
     $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted volunteer access to the system.</div>You can start by setting your volunteer profiles.');
@@ -208,6 +216,30 @@ class Volunteer extends Controller {
     }
     $service_request->service_request_status = input('post.service_request_status');
     $service_request->save();
+  }
+
+  public function profile() {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $profile = VolunteerProfile::find($uid);
+    if ($profile == null) {
+      $profile = new VolunteerProfile;
+      $profile->user_id = $uid;
+      $profile->save();
+      $profile = VolunteerProfile::find($uid);
+    }
+    if ($this->request->isPost()) {
+      $profile->volunteer_phone = input('post.volunteer_phone');
+      $profile->volunteer_description = input('post.volunteer_description');
+      $profile->save();
+      $this->assign('alert','Profile update succeeds.');
+    }
+    $this->assign('active_menu','volunteer-profile');
+    $this->assign('v', $profile);
+    return view();
   }
 
   public function publicProfile() {
