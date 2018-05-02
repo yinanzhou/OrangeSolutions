@@ -254,6 +254,7 @@ class Volunteer extends Controller {
     $profile = VolunteerProfile::find($user_id);
     $user = User::find($user_id);
     $this->assign('gravatar_hash', $user->gravatar_hash);
+    $this->assign('user_id',$user_id);
     $this->assign('name', $user->user_firstname . (is_null($user->user_middlename)?"":" $user->user_middlename") . " $user->user_lastname");
     $this->assign('description', $profile->volunteer_description);
     $this->assign('rating', $profile->rating);

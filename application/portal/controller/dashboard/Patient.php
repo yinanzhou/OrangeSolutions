@@ -6,6 +6,8 @@ use app\common\model\Appointment;
 use app\common\model\Membership;
 use app\common\model\PatientProfile;
 use app\common\model\ServiceRequest;
+use app\common\model\User;
+use app\common\model\VolunteerProfile;
 use app\portal\controller\Auth;
 use think\Controller;
 
@@ -104,15 +106,38 @@ class Patient extends Controller {
     return redirect('https://paypal.me/yinan/' . input('post.amount/f') . 'USD');
   }
 
-  public function demoRequest() {
+  public function newServiceRequest($volunteer_user_id) {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
     }
     $uid = Auth::getUserId();
     $this->checkPatientMembership();
+    if(!Auth::isVolunteer($volunteer_user_id)) {
+      abort(404);
+      return;
+    }
     $service_request = new ServiceRequest;
     $service_request->patient_user_id = $uid;
-    $service_request->volunteer_user_id = 1;
+    $service_request->volunteer_user_id = $volunteer_user_id;
     $service_request->save();
+    $volunteer = User::find($volunteer_user_id);
+    echo "Email Address: $volunteer->user_email\n";
+    $volunteer_profile = VolunteerProfile::find($volunteer_user_id);
+    echo "Email Address: $volunteer_profile->volunteer_phone\n";
+  }
+
+  public function listVolunteers() {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $this->assign('active_menu','volunteer-list');
+    $this->assign('volunteers',VolunteerProfile::alias('vp')
+        ->whereTime('volunteer_last_available_time','>=','-20 seconds')
+        ->where('volunteer_available', true)
+        ->join('user u','vp.user_id=u.user_id','LEFT')
+        ->select());
+    $uid = Auth::getUserId();
+    $this->checkPatientMembership();
+    return view('volunteer_list');
   }
 }
