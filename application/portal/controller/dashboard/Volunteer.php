@@ -5,6 +5,7 @@ namespace app\portal\controller\dashboard;
 use app\common\model\Membership;
 use app\common\model\MedicalSpecialty;
 use app\common\model\MedicalSpecialtyMastery;
+use app\common\model\PatientProfile;
 use app\common\model\User;
 use app\common\model\ServiceRequest;
 use app\common\model\VolunteerProfile;
@@ -102,6 +103,14 @@ class Volunteer extends Controller {
     $membership->user_id = $uid;
     $membership->group_id = Auth::VOLUNTEER_GROUP_ID;
     $membership->save();
+
+    $volunteer_profile = VolunteerProfile::find($uid);
+    if ($volunteer_profile == null) {
+      $volunteer_profile = new VolunteerProfile;
+      $volunteer_profile = $uid;
+      $volunteer_profile->save();
+    }
+
     // Refresh the user group information passed to view.
     $this->assign('user_group_ids', Auth::getUserGroupsId());
     $this->assign('message','<div class="alert alert-success" role="alert"><h4 class="alert-heading">You got it!</h4>You are now granted volunteer access to the system.</div>You can start by setting your volunteer profiles.');
@@ -148,6 +157,7 @@ class Volunteer extends Controller {
       abort(404);
       return;
     }
+    $this->assign('gravatar_hash', $patient->gravatar_hash);
     $this->assign('patient_name', "$patient->user_firstname $patient->user_lastname");
     return view();
   }
@@ -208,8 +218,72 @@ class Volunteer extends Controller {
     $service_request->save();
   }
 
-  public function publicProfile() {
+  public function profile() {
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $profile = VolunteerProfile::find($uid);
+    if ($profile == null) {
+      $profile = new VolunteerProfile;
+      $profile->user_id = $uid;
+      $profile->save();
+      $profile = VolunteerProfile::find($uid);
+    }
+    if ($this->request->isPost()) {
+      $profile->volunteer_phone = input('post.volunteer_phone');
+      $profile->volunteer_description = input('post.volunteer_description');
+      $profile->save();
+      $this->assign('alert','Profile update succeeds.');
+    }
+    $this->assign('active_menu','volunteer-profile');
+    $this->assign('v', $profile);
+    return view();
+  }
+
+  public function publicProfile($user_id) {
     $this->assign('active_menu','');
+    if (!Auth::isLogin()) {
+      return Auth::redirectToLogin($this->request);
+    }
+    if(!Auth::isVolunteer($user_id)){
+      abort(404);
+      return;
+    }
+    $profile = VolunteerProfile::find($user_id);
+    $user = User::find($user_id);
+    $this->assign('gravatar_hash', $user->gravatar_hash);
+    $this->assign('user_id',$user_id);
+    $this->assign('name', $user->user_firstname . (is_null($user->user_middlename)?"":" $user->user_middlename") . " $user->user_lastname");
+    $this->assign('description', $profile->volunteer_description);
+    $this->assign('rating', $profile->rating);
+    $this->assign('specialties',MedicalSpecialtyMastery::alias('msm')
+        ->where('msm.user_id', $user_id)
+        ->join('medical_specialty ms','msm.medical_specialty_id=ms.medical_specialty_id','LEFT')
+        ->order('ms.medical_specialty_name')
+        ->select());
     return view('public_profile');
+  }
+
+  public function inServiceRequest($service_request_id) {
+    $this->checkVolunteerMembership();
+    $uid = Auth::getUserId();
+    $service_request = ServiceRequest::where('service_request_id', $service_request_id)->where('volunteer_user_id',$uid)->find();
+    if ($service_request == null) {
+      abort(404);
+      return;
+    }
+    $user = User::find($service_request->patient_user_id);
+    $this->assign('name', $user->user_firstname . (is_null($user->user_middlename)?"":" $user->user_middlename") . " $user->user_lastname");
+    $p = PatientProfile::find($service_request->patient_user_id);
+    $this->assign('id', $service_request_id);
+    $this->assign('gravatar_hash', $user->gravatar_hash);
+    $this->assign('gender', (is_null($p->patient_gender)?"Not Provided":$p->patient_gender));
+    $this->assign('birth_year', (is_null($p->patient_birth_year)?"Not Provided":$p->patient_birth_year));
+    $this->assign('conditions',$p->patient_conditions);
+    $this->assign('allergies',$p->patient_allergies);
+    $this->assign('medications',$p->patient_medications);
+    return view('in_service_request');
   }
 }

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous" />
+    <link href="/static/dashboard.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha256-5+02zu5UULQkO7w1GIr6vftCgMfFdZcAHeDtFnKZsBs=" crossorigin="anonymous"></script>
+    <style>
+      .container {
+        width: auto;
+        max-width: 680px;
+        padding: 0 15px;
+      }
+
+      html {
+        position: relative;
+        min-height: 100%;
+      }
+
+      body {
+        margin-bottom: 60px;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main role="main" class="container">
+      <h1 class="mt-5">Service Request #{$id}</h1>
+      <strong>Your contact information has been shared with the patient.</strong>
+      <p><button onclick="finish()">Finish Service</button></p>
+      <h3>Patient: {$name}</h3>
+      <p><img src="https://www.gravatar.com/avatar/{$gravatar_hash}?s=200&amp;d=mm&amp;r=g" class="img-thumbnail"></p>
+      <h4>Gender</h4>
+      <p>{$gender}</p>
+      <h4>Year of Birth</h4>
+      <p>{$birth_year}</p>
+      <h4>Conditions</h4>
+      <p>{$conditions|htmlspecialchars|nl2br|raw}</p>
+      <h4>Allergies</h4>
+      <p>{$allergies|htmlspecialchars|nl2br|raw}</p>
+      <h4>Medications</h4>
+      <p>{$medications|htmlspecialchars|nl2br|raw}</p>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">CONFIDENTIAL INFORMATION! DO NOT SHARE WITH THIRD PARTY!</span>
+      </div>
+    </footer>
+    <script>
+      var current_service_request_id = {$id};
+      function finish(){
+        parent.update_service_request_status(current_service_request_id, 'Completed');
+        parent.close_ringing();
+      }
+    </script>
+  </body>
+</html>
