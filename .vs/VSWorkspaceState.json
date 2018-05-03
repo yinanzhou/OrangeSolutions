@@ -1,0 +1,21 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\application",
+    "\\application\\error_pages",
+    "\\application\\portal",
+    "\\application\\portal\\controller",
+    "\\application\\portal\\controller\\dashboard",
+    "\\application\\portal\\view",
+    "\\application\\portal\\view\\dashboard",
+    "\\config",
+    "\\install",
+    "\\public",
+    "\\public\\static",
+    "\\route",
+    "\\runtime",
+    "\\vendor"
+  ],
+  "SelectedNode": "\\application\\portal\\view\\dashboard\\admin\\user.html",
+  "PreviewInSolutionExplorer": false
+}
