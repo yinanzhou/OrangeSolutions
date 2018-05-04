@@ -1,9 +1,11 @@
 <?php
-
 namespace app\common\model;
-
 use think\Model;
 
+/**
+* Membership Data Model
+* @author   Yinan Zhou
+*/
 class Membership extends Model
 {
   protected $pk = 'user_id,group_id';

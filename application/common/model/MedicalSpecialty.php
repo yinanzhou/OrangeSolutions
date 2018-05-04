@@ -1,9 +1,11 @@
 <?php
-
 namespace app\common\model;
-
 use think\Model;
 
+/**
+* MedicalSpecialty Data Model
+* @author   Yinan Zhou
+*/
 class MedicalSpecialty extends Model
 {
   protected $pk = 'medical_specialty_id';

@@ -1,3 +1,5 @@
+// By Yinan Zhou and Joy White
+
 var volunteer_available;
 var ringing = false;
 var last_ring_service_request_id;

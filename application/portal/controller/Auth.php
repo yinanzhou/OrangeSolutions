@@ -13,6 +13,10 @@ use think\facade\Request;
 use think\Validate;
 use think\validate\ValidateRule;
 
+/**
+* Authentication Controller
+* @author Yinan Zhou
+*/
 class Auth extends Controller {
 
   const ADMIN_GROUP_ID = 1;

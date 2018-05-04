@@ -4,8 +4,8 @@
 ## Team Members
 
 ### Backend Team
- - Yinan Zhou
- - Joy White
+ - Yinan Zhou (also responsible for test set up)
+ - Joy White (also responsible for report writing)
 
 ### Frontend Team
  - Benjamin Allen

@@ -18,16 +18,28 @@ class Volunteer extends Controller {
     'passUserGroupInfo'
   ];
 
+  /**
+   * Pass user group info to the view so that menu items can show properly
+   * @author Yinan Zhou
+   */
   protected function passUserGroupInfo() {
     $this->assign('user_group_ids', Auth::getUserGroupsId());
   }
 
+  /**
+   * Check whether the user has volunteer membership
+   * @author Yinan Zhou
+   */
   protected function checkVolunteerMembership() {
     if (!Auth::isVolunteer()) {
       abort(403);
     }
   }
 
+  /**
+   * Specialty Management Page
+   * @author Yinan Zhou
+   */
   public function specialties() {
     $uid = Auth::getUserId();
     $this->assign('active_menu','volunteer-specialties');
@@ -37,6 +49,10 @@ class Volunteer extends Controller {
     return view();
   }
 
+  /**
+   * Add a specialty
+   * @author Yinan Zhou
+   */
   public function addSpecialty($medical_specialty_id) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -55,6 +71,10 @@ class Volunteer extends Controller {
     return json("Successfully added $ms->medical_specialty_name to your specialties.", 200);
   }
 
+  /**
+   * Remove a specialty
+   * @author Yinan Zhou
+   */
   public function removeSpecialty($medical_specialty_id) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -69,6 +89,10 @@ class Volunteer extends Controller {
     return json("Successfully removed $ms->medical_specialty_name from your specialties.", 200);
   }
 
+  /**
+   * Set volunteer availability
+   * @author Yinan Zhou
+   */
   public function setAvailability($status) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -81,6 +105,10 @@ class Volunteer extends Controller {
     $volunteer_profile->save();
   }
 
+  /**
+   * Enroll user into the volunteer group
+   * @author Yinan Zhou
+   */
   public function enroll() {
     $this->assign('active_menu','volunteer-enroll');
     if (!Auth::isLogin()) {
@@ -117,6 +145,10 @@ class Volunteer extends Controller {
     return view();
   }
 
+  /**
+   * An experimental iPad interface
+   * @author Yinan Zhou
+   */
   public function ipad() {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
@@ -140,6 +172,10 @@ class Volunteer extends Controller {
     return $result;
   }
 
+  /**
+   * The page shown to volunteer when a service request is pending
+   * @author Yinan Zhou
+   */
   public function ring($service_request_id) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -162,6 +198,11 @@ class Volunteer extends Controller {
     return view();
   }
 
+  /**
+   * Response to status check from client
+   * @author Joy White
+   * @author Yinan Zhou
+   */
   public function getStatus() {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -191,6 +232,10 @@ class Volunteer extends Controller {
     return json($rtn);
   }
 
+  /**
+   * Update Service Request Status
+   * @author Yinan Zhou
+   */
   public function updateServiceRequestStatus($service_request_id) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();
@@ -218,6 +263,10 @@ class Volunteer extends Controller {
     $service_request->save();
   }
 
+  /**
+   * Volunteer Profile Management Page
+   * @author Yinan Zhou
+   */
   public function profile() {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
@@ -242,6 +291,10 @@ class Volunteer extends Controller {
     return view();
   }
 
+  /**
+   * Volunteer Profile visible to Patients
+   * @author Yinan Zhou
+   */
   public function publicProfile($user_id) {
     $this->assign('active_menu','');
     if (!Auth::isLogin()) {
@@ -266,6 +319,10 @@ class Volunteer extends Controller {
     return view('public_profile');
   }
 
+  /**
+   * Page shown to volunteer during a Service Request, including patient profile
+   * @author Yinan Zhou
+   */
   public function inServiceRequest($service_request_id) {
     $this->checkVolunteerMembership();
     $uid = Auth::getUserId();

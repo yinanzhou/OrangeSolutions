@@ -1,5 +1,4 @@
 <?php
-
 namespace app\portal\controller\dashboard;
 
 use app\common\model\Appointment;
@@ -11,22 +10,37 @@ use app\common\model\VolunteerProfile;
 use app\portal\controller\Auth;
 use think\Controller;
 
+/**
+* Patient Dashboard Controller
+*/
 class Patient extends Controller {
 
   protected $beforeActionList = [
     'passUserGroupInfo'
   ];
 
+  /**
+   * Pass user group info to the view so that menu items can show properly
+   * @author Yinan Zhou
+   */
   protected function passUserGroupInfo() {
     $this->assign('user_group_ids', Auth::getUserGroupsId());
   }
 
+  /**
+   * Check whether the user has patient membership
+   * @author Yinan Zhou
+   */
   protected function checkPatientMembership() {
     if (!Auth::isPatient()) {
       abort(403);
     }
   }
 
+  /**
+   * Enroll User in Patient User Group
+   * @author Yinan Zhou
+   */
   public function enroll() {
     $this->assign('active_menu','');
     if (!Auth::isLogin()) {
@@ -62,6 +76,11 @@ class Patient extends Controller {
     return view();
   }
 
+  /**
+   * Patient Profile
+   * @author Yinan Zhou
+   * @author Joy White
+   */
   public function profile() {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
@@ -92,6 +111,10 @@ class Patient extends Controller {
     return view();
   }
 
+  /**
+   * Donation Function
+   * @author Yinan Zhou
+   */
   public function donate() {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
@@ -101,11 +124,19 @@ class Patient extends Controller {
     return view();
   }
 
+  /**
+   * Redirect user to Paypal for donation processing
+   * @author Yinan Zhou
+   */
   public function redirectToPaypal() {
     $this->checkPatientMembership();
     return redirect('https://paypal.me/yinan/' . input('post.amount/f') . 'USD');
   }
 
+  /**
+   * Create a new service request
+   * @author Yinan Zhou
+   */
   public function newServiceRequest($volunteer_user_id) {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
@@ -126,6 +157,10 @@ class Patient extends Controller {
     echo "Email Address: $volunteer_profile->volunteer_phone\n";
   }
 
+  /**
+   * List all available volunteers
+   * @author Yinan Zhou
+   */
   public function listVolunteers() {
     if (!Auth::isLogin()) {
       return Auth::redirectToLogin($this->request);
