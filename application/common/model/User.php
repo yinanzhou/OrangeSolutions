@@ -1,9 +1,11 @@
 <?php
-
 namespace app\common\model;
-
 use think\Model;
 
+/**
+* User Data Model
+* @author   Yinan Zhou
+*/
 class User extends Model
 {
   protected $pk = 'user_id';

@@ -1,3 +1,4 @@
+// By Yinan Zhou
 function setUserStatus(uid, enabled) {
   if (!confirm('Confirm to ' + (enabled?"enable":"disable") + ' user ' + uid)) {
     return;

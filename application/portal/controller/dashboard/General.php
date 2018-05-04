@@ -1,20 +1,31 @@
 <?php
-
 namespace app\portal\controller\dashboard;
 
 use app\portal\controller\Auth;
 use think\Controller;
 
+/**
+* General Dashboard Controller
+* @author   Yinan Zhou
+*/
 class General extends Controller {
 
   protected $beforeActionList = [
     'passUserGroupInfo'
   ];
 
+  /**
+   * Pass user group info to the view so that menu items can show properly
+   * @author Yinan Zhou
+   */
   protected function passUserGroupInfo() {
     $this->assign('user_group_ids', Auth::getUserGroupsId());
   }
 
+  /**
+   * The Dashboard Home Page
+   * @author Yinan Zhou
+   */
   public function home() {
     $this->assign('active_menu','dashboard');
     if (!Auth::isLogin()) {
@@ -23,6 +34,10 @@ class General extends Controller {
     return view();
   }
 
+  /**
+   * The Account Detail Page
+   * @author Yinan Zhou
+   */
   public function account() {
     $this->assign('active_menu','profile');
     if (!Auth::isLogin()) {

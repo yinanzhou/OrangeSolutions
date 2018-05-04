@@ -1,6 +1,9 @@
 {extend name="../application/portal/view/dashboard/layout.html" /}
 {block name="title"}Patient Profile{/block}
 {block name="main"}
+<!-- @author: Yinan Zhou -->
+<!-- @author: Benjamin Allen -->
+<!-- @author: William Kingston -->
 <h3 class="border-bottom">My Patient Profile</h3>
 <div>
   <img src="https://www.gravatar.com/avatar/{$Think.session.user.model->user_email|trim|strtolower|md5}?s=200&d=mm&r=g"

@@ -1,9 +1,11 @@
 <?php
-
 namespace app\common\model;
-
 use think\Model;
 
+/**
+* PatientProfile Data Model
+* @author   Yinan Zhou
+*/
 class PatientProfile extends Model
 {
   protected $pk = 'user_id';

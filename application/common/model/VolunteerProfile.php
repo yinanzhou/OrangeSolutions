@@ -1,10 +1,12 @@
 <?php
-
 namespace app\common\model;
-
 use think\Model;
 use app\common\model\ServiceRequest;
 
+/**
+* Volunteer Profile Data Model
+* @author   Yinan Zhou
+*/
 class VolunteerProfile extends Model
 {
   protected $pk = 'user_id';
